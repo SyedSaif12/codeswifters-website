@@ -76,13 +76,9 @@ function ReviewCard({
   decorative: boolean;
 }) {
   return (
-    <figure className="w-[300px] shrink-0 sm:w-[400px]">
-      <Card className="relative flex h-full flex-col bg-card p-6">
-        <Quote
-          aria-hidden
-          className="absolute right-5 top-14 h-8 w-8 text-brand-violet/15"
-        />
-        <div className="flex items-center justify-between gap-3">
+    <figure className="w-[82vw] max-w-[400px] shrink-0 sm:w-[400px]">
+      <Card className="relative flex h-full flex-col bg-card p-5 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
           <Stars rating={t.rating} />
           <Badge tone="violet">{t.tag}</Badge>
         </div>
@@ -91,12 +87,16 @@ function ReviewCard({
         </blockquote>
         <figcaption className="mt-6 flex items-center gap-3 border-t border-line pt-5">
           <Avatar t={t} decorative={decorative} />
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <p className="truncate font-semibold text-foreground">{t.name}</p>
             <p className="truncate text-xs text-muted">
               {t.title} · {t.company}
             </p>
           </div>
+          <Quote
+            aria-hidden
+            className="h-7 w-7 shrink-0 text-brand-violet/25"
+          />
         </figcaption>
       </Card>
     </figure>
@@ -123,7 +123,7 @@ export function Testimonials() {
     "linear-gradient(to right, transparent, black 6%, black 94%, transparent)";
 
   return (
-    <section id="reviews" className="scroll-mt-20 py-24">
+    <section id="reviews" className="scroll-mt-20 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Client Reviews"
@@ -135,7 +135,7 @@ export function Testimonials() {
           description="Real feedback from the teams we've built products with."
         />
 
-        <div className="mt-8 flex items-center justify-center gap-3 text-sm text-muted">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-sm text-muted">
           <Stars rating={Math.round(average * 2) / 2} />
           <span>
             <strong className="font-semibold text-foreground">
@@ -149,10 +149,10 @@ export function Testimonials() {
       {/* Full-bleed slider. Always sliding; pauses while hovered or focused.
           Vertical padding leaves room for the card hover-lift and glow. */}
       <div
-        className="group mt-12 overflow-hidden py-6 motion-reduce:overflow-x-auto"
+        className="group mt-10 overflow-hidden py-6 sm:mt-12"
         style={{ maskImage: mask, WebkitMaskImage: mask }}
       >
-        <div className="flex w-max animate-marquee-reviews motion-reduce:animate-none group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]">
+        <div className="flex w-max animate-marquee-reviews will-change-transform motion-reduce:[animation-duration:300s] group-hover:[animation-play-state:paused] group-active:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]">
           <ReviewRow />
           <ReviewRow decorative />
         </div>

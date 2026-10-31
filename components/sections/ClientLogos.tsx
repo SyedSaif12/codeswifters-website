@@ -85,7 +85,7 @@ export function ClientLogos() {
         style={{ maskImage: mask, WebkitMaskImage: mask }}
       >
         {/* Two identical rows; translating by -50% loops seamlessly. */}
-        <div className="flex w-max animate-marquee motion-reduce:animate-none group-hover:[animation-play-state:paused]">
+        <div className="flex w-max animate-marquee will-change-transform motion-reduce:[animation-duration:90s] group-hover:[animation-play-state:paused] group-active:[animation-play-state:paused]">
           <LogoRow />
           <LogoRow hidden />
         </div>

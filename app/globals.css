@@ -45,6 +45,22 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Infinite logo marquee: generates the `animate-marquee` utility */
+@theme {
+  --animate-marquee: marquee 40s linear infinite;
+  /* Slower, so long reviews are readable as they pass */
+  --animate-marquee-reviews: marquee 120s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
 /* Theme-aware accent gradient helpers */
 @utility bg-accent-gradient {
   background-image: linear-gradient(

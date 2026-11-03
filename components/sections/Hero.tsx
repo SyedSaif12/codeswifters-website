@@ -7,8 +7,8 @@ import { ButtonLink } from "@/components/ui/Button";
 import { GradientText } from "@/components/ui/SectionHeading";
 
 const metrics = [
-  { value: "50+", label: "Products shipped" },
-  { value: "99.99%", label: "Uptime delivered" },
+  { value: "350+", label: "Specialized experts" },
+  { value: "30+", label: "Countries served" },
   { value: "4.9/5", label: "Client rating" },
 ];
 
@@ -69,11 +69,11 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-9 flex flex-col gap-3 sm:flex-row"
           >
-            <ButtonLink href="#estimator" size="lg">
-              Estimate your project <ArrowRight className="h-4 w-4" />
+            <ButtonLink href="/contact-us" size="lg">
+              Book a free call <ArrowRight className="h-4 w-4" />
             </ButtonLink>
-            <ButtonLink href="#work" variant="secondary" size="lg">
-              <Play className="h-4 w-4" /> View case studies
+            <ButtonLink href="/our-work" variant="secondary" size="lg">
+              <Play className="h-4 w-4" /> View our work
             </ButtonLink>
           </motion.div>
 

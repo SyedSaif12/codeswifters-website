@@ -1,44 +1,13 @@
 import Image from "next/image";
-import { Quote, Star } from "lucide-react";
+import { Quote } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
+import { Stars } from "@/components/ui/Stars";
 import { testimonials, type Testimonial } from "@/lib/testimonials";
 
 const average =
   testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length;
-
-/** 5 Electric Violet stars; supports half ratings (e.g. 4.5). */
-function Stars({ rating }: { rating: number }) {
-  return (
-    <div
-      role="img"
-      aria-label={`Rated ${rating} out of 5`}
-      className="flex gap-0.5"
-    >
-      {Array.from({ length: 5 }, (_, i) => {
-        const fill = Math.max(0, Math.min(1, rating - i));
-        return (
-          <span key={i} className="relative inline-block h-4 w-4">
-            <Star
-              aria-hidden
-              className="absolute inset-0 h-4 w-4 text-brand-violet/30"
-            />
-            <span
-              className="absolute inset-0 overflow-hidden"
-              style={{ width: `${fill * 100}%` }}
-            >
-              <Star
-                aria-hidden
-                className="h-4 w-4 fill-brand-violet text-brand-violet"
-              />
-            </span>
-          </span>
-        );
-      })}
-    </div>
-  );
-}
 
 function Avatar({ t, decorative }: { t: Testimonial; decorative: boolean }) {
   if (t.photo) {

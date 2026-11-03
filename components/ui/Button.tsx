@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 
 type Variant = "primary" | "secondary" | "ghost" | "light";
@@ -42,12 +43,13 @@ export function ButtonLink({
   variant = "primary",
   size = "md",
   className,
+  href,
   ...props
 }: Common & AnchorHTMLAttributes<HTMLAnchorElement>) {
-  return (
-    <a
-      className={cn(base, variants[variant], sizes[size], className)}
-      {...props}
-    />
-  );
+  const cls = cn(base, variants[variant], sizes[size], className);
+  // Internal routes use client-side navigation; mailto:, tel:, http(s) stay plain anchors.
+  if (typeof href === "string" && href.startsWith("/")) {
+    return <Link href={href} className={cls} {...props} />;
+  }
+  return <a href={href} className={cls} {...props} />;
 }

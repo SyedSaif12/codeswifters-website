@@ -90,6 +90,7 @@ export const testimonials: Testimonial[] = [
     company: "Hooha",
     tag: "Product Build",
     rating: 5,
+    photo: "/assets/testimonials/deepak.png",
     review:
       "Working with CodeSwifters was a great experience. From the beginning, they quickly understood our requirements and the challenges we wanted to solve. Their technical expertise, attention to detail, and ability to translate ideas into practical solutions made the entire process smooth and efficient. Communication was excellent throughout, and they delivered exactly what we needed. I highly recommend CodeSwifters and would definitely work with them again.",
   },
@@ -99,6 +100,7 @@ export const testimonials: Testimonial[] = [
     company: "Wight Guide",
     tag: "UX/UI & Product",
     rating: 5,
+    photo: "/assets/testimonials/chantelle.png",
     review:
       "CodeSwifters has been a pleasure to work with. They are responsive, professional, and bring strong product thinking to every stage of development. Their UX/UI expertise and ability to provide valuable technical guidance helped shape the product in the right direction. They proactively created clear milestones and maintained excellent communication throughout the project.",
   },

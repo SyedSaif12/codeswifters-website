@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Footer } from "@/components/layout/Footer";
+import { Navbar, NavbarFallback } from "@/components/layout/Navbar";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 
 const geistSans = Geist({
@@ -14,9 +17,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CodeSwifters | Software House",
+  metadataBase: new URL("https://codeswifters.com"),
+  title: {
+    default: "Custom Software, Web & AI Development Company | CodeSwifters",
+    template: "%s | CodeSwifters",
+  },
   description:
-    "CodeSwifters builds modern web, mobile and cloud software for startups and enterprises.",
+    "CodeSwifters delivers high-performance custom software, web development, mobile apps, and AI-powered solutions to help businesses scale faster and smarter.",
   // Favicon follows the browser/OS color scheme: navy+violet mark on light
   // tabs, light-violet mark on dark tabs.
   icons: {
@@ -49,7 +56,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           defaultTheme="dark"
           enableSystem={false}
         >
-          {children}
+          <a
+            href="#main"
+            className="sr-only z-[60] rounded-full bg-foreground px-4 py-2 text-background focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          >
+            Skip to content
+          </a>
+          {/* Navbar reads the pathname, so it must sit in Suspense (Cache Components) */}
+          <Suspense fallback={<NavbarFallback />}>
+            <Navbar />
+          </Suspense>
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

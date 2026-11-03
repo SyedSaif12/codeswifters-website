@@ -6,6 +6,7 @@ import { ArrowRight, CalendarClock, Check, Wallet } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { ButtonLink } from "@/components/ui/Button";
 import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
+import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type Option = { id: string; label: string; hint: string };
@@ -204,7 +205,7 @@ export function Estimator() {
             </div>
 
             <ButtonLink
-              href={`mailto:hello@codeswifters.com?subject=${subject}&body=${body}`}
+              href={`mailto:${site.email}?subject=${subject}&body=${body}`}
               size="lg"
               className="relative mt-8 w-full"
             >

@@ -66,6 +66,33 @@ The palette is derived from the logo. **Never hardcode hex values or raw Tailwin
 - **Favicon:** set through `metadata.icons` in `app/layout.tsx` with `prefers-color-scheme` media queries (`mark-light.png` for light, `mark-dark.png` for dark; `mark-light.png` is also the Apple icon). Do not add `app/favicon.ico`, which would override this.
 - `public/assets/brand/mark.svg` is an old cyan/dark-navy mark that is off-palette. Do not use it.
 
+## Site structure (multi-page App Router)
+
+| Route | File | Notes |
+| ----- | ---- | ----- |
+| `/` | `app/page.tsx` | Hero, ClientLogos, Services overview, FeaturedWork, Testimonials, CTA |
+| `/services` | `app/services/page.tsx` | All capabilities, TechStack, process. Anchors `#custom-software`, `#ai` |
+| `/services/mobile-development` | `app/services/mobile-development/page.tsx` | Driven by `lib/services.ts` through `ServiceDetail` |
+| `/services/web-development` | `app/services/web-development/page.tsx` | same |
+| `/services/web-applications` | `app/services/web-applications/page.tsx` | same |
+| `/our-work` | `app/our-work/page.tsx` | Filterable `WorkGrid` |
+| `/our-work/<slug>` | `app/our-work/<slug>/page.tsx` | One page per project (wedfluencer, biotip, mcs, nexus, luxevault, lynacam, wightguide). Each renders `CaseStudyView` with content from `lib/case-studies/<slug>.ts`. Core stack badges come from `CORE_STACK` in `lib/case-studies/types.ts` |
+| `/about-us` | `app/about-us/page.tsx` | |
+| `/contact-us` | `app/contact-us/page.tsx` | Contact form, Estimator, FAQ |
+
+- `Navbar` and `Footer` live in `app/layout.tsx` (not in pages). The Navbar has a Services dropdown (hover for mouse, tap/Enter to toggle, Esc/outside click closes) and a mobile accordion.
+- **Content lives in `lib/`**: `site.ts` (contact details, offices, nav), `services.ts`, `projects.ts`, `testimonials.ts`. Adding a project means: an entry in `projects.ts` (card), `lib/case-studies/<slug>.ts` and `app/our-work/<slug>/page.tsx`. There is no generic fallback route.
+- Contact details and wording come from the live site (codeswifters.com). Case-study copy beyond the live summaries was written from screenshots and client reviews, so review it before publishing.
+- Use `ButtonLink` for links styled as buttons: internal `/paths` use `next/link`, while `mailto:`/`tel:`/external stay plain anchors.
+- Images: always `next/image` with `fill` + `sizes` inside an aspect-ratio box. Avoid asset filenames with spaces or parentheses.
+
+## Next.js 16 Cache Components rules (enabled in `next.config.ts`)
+
+- Do **not** export `dynamicParams` or other route segment configs (the build fails). Use `notFound()` for unknown params.
+- Await `params` inside `<Suspense>` (Partial Prefetching is on). Case study pages are static (no params).
+- Client components that call `usePathname()` in a shared layout must be wrapped in `<Suspense>` (see `Navbar` + `NavbarFallback` in `app/layout.tsx`).
+- If dev shows stale or mismatched HTML after running `npm run build`, stop the dev server and delete `.next`.
+
 ## Next.js notes
 
 - This is Next.js 16. Do not read the clock (`new Date()`) during render of statically prerendered components. See `components/layout/Footer.tsx` for the `useSyncExternalStore` pattern.

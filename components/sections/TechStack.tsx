@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Brain, Cloud, Layout, Server, type LucideIcon } from "lucide-react";
+import { Brain, Cloud, Layout, Palette, Server, type LucideIcon } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
 import { cn } from "@/lib/utils";
@@ -18,7 +18,7 @@ type Tab = {
 const tabs: Tab[] = [
   {
     id: "frontend",
-    label: "Frontend",
+    label: "Front-End",
     icon: Layout,
     blurb: "Interfaces that feel instant and look unforgettable.",
     items: [
@@ -32,7 +32,7 @@ const tabs: Tab[] = [
   },
   {
     id: "backend",
-    label: "Backend",
+    label: "Back-End",
     icon: Server,
     blurb: "APIs and data layers built for reliability under load.",
     items: [
@@ -45,8 +45,22 @@ const tabs: Tab[] = [
     ],
   },
   {
+    id: "design",
+    label: "Design",
+    icon: Palette,
+    blurb: "Research-led design that turns ideas into intuitive products.",
+    items: [
+      { name: "Figma", note: "Interface design & prototyping" },
+      { name: "Design Systems", note: "Consistent, reusable UI" },
+      { name: "User Research", note: "Decisions grounded in real users" },
+      { name: "Prototyping", note: "Clickable flows before development" },
+      { name: "Motion Design", note: "Purposeful micro-interactions" },
+      { name: "Accessibility", note: "Inclusive by default" },
+    ],
+  },
+  {
     id: "cloud",
-    label: "Cloud & Infra",
+    label: "DevOps",
     icon: Cloud,
     blurb: "Automated, observable infrastructure that scales on demand.",
     items: [

@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { CalendarCheck, Mail, Send, Clock } from "lucide-react";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
+import { site } from "@/lib/site";
 
 const inputClass =
   "w-full rounded-xl border border-line bg-background/60 px-4 py-3 text-sm text-foreground placeholder:text-muted transition-colors focus:border-brand-glow/60 focus:outline-none focus:ring-2 focus:ring-brand-glow/20";
@@ -20,42 +21,72 @@ export function Contact() {
     const body = encodeURIComponent(
       `${f.get("message")}\n\n— ${f.get("name")} (${f.get("email")})`,
     );
-    window.location.href = `mailto:hello@codeswifters.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
     setSent(true);
   }
+
+  const info = [
+    {
+      icon: Mail,
+      title: "Write Email",
+      lines: [site.email],
+      href: `mailto:${site.email}`,
+    },
+    {
+      icon: Phone,
+      title: "Phone Number",
+      lines: [site.phone],
+      href: site.phoneHref,
+    },
+    ...site.offices.map((o) => ({
+      icon: MapPin,
+      title: `${o.country} Office`,
+      lines: [o.address],
+      href: undefined as string | undefined,
+    })),
+  ];
 
   return (
     <section
       id="contact"
-      className="mx-auto max-w-7xl scroll-mt-20 px-4 py-24 sm:px-6 lg:px-8"
+      className="mx-auto max-w-7xl scroll-mt-20 px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
     >
       <SectionHeading
-        eyebrow="Contact"
+        eyebrow="Connect With Us"
         title={
           <>
             Let&apos;s build <GradientText>what&apos;s next</GradientText>
           </>
         }
-        description="Tell us about your project. We reply within one business day."
+        description="Reach out and start a conversation today. We reply within one business day."
       />
 
-      <div className="mt-14 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+      <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
         <div className="space-y-4">
-          {[
-            { icon: Mail, title: "Email us", text: "hello@codeswifters.com" },
-            { icon: Clock, title: "Response time", text: "Within 1 business day" },
-            { icon: CalendarCheck, title: "Free strategy call", text: "30 minutes, no strings attached" },
-          ].map(({ icon: Icon, title, text }) => (
-            <Card key={title} className="flex items-center gap-4 p-5">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-violet/10 text-accent ring-1 ring-line">
-                <Icon className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="font-semibold text-foreground">{title}</p>
-                <p className="text-sm text-muted">{text}</p>
-              </div>
-            </Card>
-          ))}
+          {info.map(({ icon: Icon, title, lines, href }) => {
+            const body = (
+              <Card className="flex items-start gap-4 p-5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-violet/10 text-accent ring-1 ring-line">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="font-semibold text-foreground">{title}</p>
+                  {lines.map((l) => (
+                    <p key={l} className="break-words text-sm text-muted">
+                      {l}
+                    </p>
+                  ))}
+                </div>
+              </Card>
+            );
+            return href ? (
+              <a key={title} href={href} className="block rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-glow">
+                {body}
+              </a>
+            ) : (
+              <div key={title}>{body}</div>
+            );
+          })}
         </div>
 
         <Card hover={false} className="p-6 sm:p-8">

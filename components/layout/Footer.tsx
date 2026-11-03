@@ -1,42 +1,24 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { ArrowRight, Mail } from "lucide-react";
-import { ButtonLink } from "@/components/ui/Button";
+import Link from "next/link";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
-import { GradientText } from "@/components/ui/SectionHeading";
 import {
   GithubIcon,
   LinkedinIcon,
   XIcon,
 } from "@/components/ui/SocialIcons";
+import { serviceLinks, site } from "@/lib/site";
 
-const columns = [
-  {
-    title: "Services",
-    links: [
-      { label: "Web Platforms", href: "#services" },
-      { label: "Mobile Apps", href: "#services" },
-      { label: "Cloud & DevOps", href: "#services" },
-      { label: "AI Integration", href: "#services" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "Case Studies", href: "#work" },
-      { label: "Tech Stack", href: "#stack" },
-      { label: "Estimator", href: "#estimator" },
-      { label: "Contact", href: "#contact" },
-    ],
-  },
+const company = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about-us" },
+  { label: "Our Work", href: "/our-work" },
+  { label: "Contact Us", href: "/contact-us" },
 ];
 
-const socials = [
-  { label: "GitHub", href: "https://github.com", Icon: GithubIcon },
-  { label: "LinkedIn", href: "https://linkedin.com", Icon: LinkedinIcon },
-  { label: "X", href: "https://x.com", Icon: XIcon },
-];
+const socialIcons = { GitHub: GithubIcon, LinkedIn: LinkedinIcon, X: XIcon };
 
 const noopSubscribe = () => () => {};
 
@@ -49,79 +31,97 @@ export function Footer() {
     () => 2026,
   );
 
-  return (
-    <footer className="relative border-t border-line">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative -mt-px overflow-hidden rounded-b-3xl border-x border-b border-line bg-card/70 px-6 py-14 text-center backdrop-blur-xl sm:px-12">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--glow),transparent_70%)]"
-          />
-          <h2 className="relative text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Ready to ship something <GradientText>exceptional</GradientText>?
-          </h2>
-          <p className="relative mx-auto mt-4 max-w-xl text-muted">
-            Book a free 30-minute strategy call. We&apos;ll map your idea to a
-            scoped roadmap within 48 hours.
-          </p>
-          <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <ButtonLink href="#contact" size="lg">
-              Book a strategy call <ArrowRight className="h-4 w-4" />
-            </ButtonLink>
-            <ButtonLink
-              href="mailto:hello@codeswifters.com"
-              variant="secondary"
-              size="lg"
-            >
-              <Mail className="h-4 w-4" /> hello@codeswifters.com
-            </ButtonLink>
-          </div>
-        </div>
+  const linkClass = "transition-colors hover:text-accent";
 
-        <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="lg:col-span-2">
-            <a href="#top" className="flex items-center gap-3">
+  return (
+    <footer className="border-t border-line bg-card/30">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
+          <div>
+            <Link href="/" aria-label="CodeSwifters home" className="inline-block">
               <Logo />
-            </a>
-            <p className="mt-4 max-w-sm text-sm text-muted">
-              A product engineering studio architecting and scaling next-gen
-              digital products for startups and enterprises.
+            </Link>
+            <p className="mt-4 max-w-xs text-sm text-muted">
+              Leveraging the latest technologies to create impactful,
+              high-performance software that accelerates business growth.
             </p>
             <div className="mt-6 flex gap-3">
-              {socials.map(({ label, href, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-muted transition-all duration-300 hover:-translate-y-1 hover:border-brand-glow/50 hover:text-accent"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
+              {site.socials.map(({ label, href }) => {
+                const Icon = socialIcons[label];
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-muted transition-all duration-300 hover:-translate-y-1 hover:border-brand-glow/50 hover:text-accent"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          {columns.map((col) => (
-            <div key={col.title}>
-              <h3 className="text-sm font-semibold text-foreground">
-                {col.title}
-              </h3>
-              <ul className="mt-4 space-y-3 text-sm text-muted">
-                {col.links.map((l) => (
-                  <li key={l.label}>
-                    <a
-                      href={l.href}
-                      className="transition-colors hover:text-accent"
-                    >
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">Services</h3>
+            <ul className="mt-4 space-y-3 text-sm text-muted">
+              {serviceLinks.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className={linkClass}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/services" className={linkClass}>
+                  All Services
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">Company</h3>
+            <ul className="mt-4 space-y-3 text-sm text-muted">
+              {company.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className={linkClass}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">Get in touch</h3>
+            <ul className="mt-4 space-y-3 text-sm text-muted">
+              <li>
+                <a href={`mailto:${site.email}`} className={`flex items-center gap-2 ${linkClass}`}>
+                  <Mail className="h-4 w-4 shrink-0 text-accent" /> {site.email}
+                </a>
+              </li>
+              <li>
+                <a href={site.phoneHref} className={`flex items-center gap-2 ${linkClass}`}>
+                  <Phone className="h-4 w-4 shrink-0 text-accent" /> {site.phone}
+                </a>
+              </li>
+              {site.offices.map((o) => (
+                <li key={o.country} className="flex items-start gap-2">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  <span>
+                    <span className="font-medium text-foreground/90">
+                      {o.country} Office
+                    </span>
+                    <br />
+                    {o.address}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="flex flex-col items-center justify-between gap-2 border-t border-line py-6 text-xs text-muted sm:flex-row">

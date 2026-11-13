@@ -16,7 +16,7 @@ export function Hero() {
     <section id="top" className="bg-brand-midnight text-white">
       <div className="px-4 pb-12 pt-20 sm:px-6 sm:pt-28 lg:px-10 lg:pt-36">
         <p className="text-xs font-medium uppercase tracking-widest text-white/70 sm:text-sm">
-          Software house &nbsp;/&nbsp; Milton, ON &nbsp;/&nbsp; Karachi, PK
+          Software house &nbsp;/&nbsp; Milton, CA &nbsp;/&nbsp; Karachi, PK
         </p>
 
         <Reveal delay={0.05}>
@@ -30,7 +30,7 @@ export function Hero() {
         <div className="mt-16 grid gap-12 border-t border-white/25 pt-10 lg:mt-24 lg:grid-cols-12 lg:gap-10">
           <Reveal delay={0.2} className="lg:col-span-7">
             <p className="max-w-2xl text-xl leading-snug text-white sm:text-2xl">
-              A senior team in Milton, Ontario and Karachi that designs and
+              A senior team in Milton, CA and Karachi that designs and
               builds custom software, web platforms, iOS and Android apps and AI
               features, from the first sketch to the production release.
             </p>

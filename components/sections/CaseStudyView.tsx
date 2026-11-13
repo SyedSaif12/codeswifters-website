@@ -1,78 +1,74 @@
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  AlertCircle,
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  ChevronRight,
-  Quote,
-} from "lucide-react";
-import { CtaBanner } from "@/components/sections/CtaBanner";
-import { Badge } from "@/components/ui/Badge";
+import { Eyebrow, Frame } from "@/components/new-homepage/Frame";
+import { NhCta } from "@/components/new-homepage/NhCta";
 import { ButtonLink } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Reveal } from "@/components/ui/Reveal";
-import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
 import { Stars } from "@/components/ui/Stars";
-import { CORE_STACK, type CaseStudy, type CaseStudySection } from "@/lib/case-studies/types";
+import {
+  CORE_STACK,
+  type CaseStudy,
+  type CaseStudySection,
+} from "@/lib/case-studies/types";
 import { projects } from "@/lib/projects";
 import { testimonials } from "@/lib/testimonials";
+import { cn } from "@/lib/utils";
 
-const iconWell =
-  "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-violet/10 text-accent ring-1 ring-line";
+const h2 =
+  "mt-4 text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-5xl";
 
-
-function NarrativeSection({ s, tinted }: { s: CaseStudySection; tinted?: boolean }) {
+/** Story section: label + title (4) beside the copy (8), optional ledger and callout. */
+function Narrative({ s, index }: { s: CaseStudySection; index: string }) {
   return (
-    <section className={tinted ? "border-y border-line/80 bg-card/30" : ""}>
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <Reveal>
-          <SectionHeading
-            eyebrow={s.eyebrow}
-            title={
-              <>
-                {s.titleLead} <GradientText>{s.titleAccent}</GradientText>
-              </>
-            }
-          />
-        </Reveal>
-        <div className="mx-auto mt-10 max-w-3xl space-y-5 text-lg leading-relaxed text-muted">
+    <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+      <div className="grid gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <Eyebrow index={index}>{s.eyebrow}</Eyebrow>
+          <h2 className={h2}>
+            {s.titleLead} <span className="text-accent">{s.titleAccent}</span>
+          </h2>
+        </div>
+        <div className="space-y-5 text-lg leading-relaxed text-muted lg:col-span-8">
           {s.paragraphs.map((t) => (
-            <Reveal key={t}>
-              <p>{t}</p>
-            </Reveal>
+            <p key={t}>{t}</p>
           ))}
         </div>
-        {s.items && (
-          <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {s.items.map((it, i) => (
-              <Reveal as="li" key={it.title} delay={(i % 3) * 0.08}>
-                <Card className="h-full p-6">
-                  <span className={iconWell}>
-                    <it.icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-4 font-semibold text-foreground">{it.title}</h3>
-                  <p className="mt-2 text-sm text-muted">{it.text}</p>
-                </Card>
-              </Reveal>
-            ))}
-          </ul>
-        )}
-        {s.callout && (
-          <Reveal className="mx-auto mt-12 max-w-3xl">
-            <div className="rounded-2xl border border-brand-violet/30 bg-brand-violet/10 p-6 sm:p-8">
-              <div className="flex gap-4">
-                <span className="w-1 shrink-0 rounded-full bg-accent-gradient" />
-                <p className="text-lg font-medium leading-relaxed text-foreground">{s.callout}</p>
-              </div>
-            </div>
-          </Reveal>
-        )}
       </div>
+
+      {s.items && (
+        <ul className="mt-14 border-t border-line">
+          {s.items.map((it, i) => (
+            <li
+              key={it.title}
+              className="grid gap-2 border-b border-line py-6 transition-colors hover:bg-brand-purple hover:text-white lg:grid-cols-12 lg:gap-10 lg:px-6"
+            >
+              <span className="font-mono text-xs text-muted [li:hover>&]:text-white/70 lg:col-span-1">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="text-xl font-semibold tracking-tight lg:col-span-4">
+                {it.title}
+              </h3>
+              <p className="text-sm leading-relaxed text-muted [li:hover>&]:text-white/80 lg:col-span-6 lg:col-start-7">
+                {it.text}
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {s.callout && (
+        <p className="mt-14 bg-brand-purple p-6 text-xl font-medium leading-snug tracking-tight text-white sm:p-10 sm:text-2xl lg:max-w-4xl">
+          {s.callout}
+        </p>
+      )}
     </section>
   );
 }
+
+const metricSpans: Record<number, string[]> = {
+  3: ["lg:col-span-5", "lg:col-span-4", "lg:col-span-3"],
+  4: ["lg:col-span-5", "lg:col-span-3", "lg:col-span-2", "lg:col-span-2"],
+};
 
 /** Shared layout for every hand-built case study page. */
 export function CaseStudyView({ c }: { c: CaseStudy }) {
@@ -94,419 +90,300 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
   const stack = c.meta.stack ?? CORE_STACK;
   const heroFit = c.images.heroFit ?? "cover";
   const heroShape = c.images.heroShape ?? "square";
+  const spans = metricSpans[c.metrics.length] ?? metricSpans[4];
 
   return (
     <>
       {/* 1. Hero */}
-      <section className="relative overflow-hidden border-b border-line/80">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_60%_at_50%_-10%,var(--glow),transparent)]"
-        />
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-            <div>
-              <nav aria-label="Breadcrumb" className="mb-6">
-                <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted">
-                  <li>
-                    <Link href="/" className="hover:text-accent">Home</Link>
-                  </li>
-                  <ChevronRight aria-hidden className="h-3.5 w-3.5" />
-                  <li>
-                    <Link href="/our-work" className="hover:text-accent">Our Work</Link>
-                  </li>
-                  <ChevronRight aria-hidden className="h-3.5 w-3.5" />
-                  <li aria-current="page" className="text-foreground">{project.name}</li>
-                </ol>
-              </nav>
+      <section className="border-b border-line px-4 pb-16 pt-14 sm:px-6 sm:pt-20 lg:px-10">
+        <nav aria-label="Breadcrumb">
+          <ol className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted">
+            <li>
+              <Link href="/" className="hover:text-foreground">Home</Link>
+            </li>
+            <li className="text-line">/</li>
+            <li>
+              <Link href="/our-work" className="hover:text-foreground">Our work</Link>
+            </li>
+            <li className="text-line">/</li>
+            <li aria-current="page" className="text-accent">{project.name}</li>
+          </ol>
+        </nav>
 
-              <Reveal>
-                <Badge tone="violet" className="gap-2 py-1.5 pl-1.5 pr-3 text-sm">
-                  <Image
-                    src={c.images.icon}
-                    alt=""
-                    width={24}
-                    height={24}
-                    className="h-6 w-6 rounded-md object-contain"
-                  />
-                  {c.badge}
-                </Badge>
-                <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-                  {c.titleLead} <GradientText>{c.titleAccent}</GradientText>
-                </h1>
-                <p className="mt-5 max-w-xl text-lg text-muted">{c.summary}</p>
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <ButtonLink href="/contact-us" size="lg">
-                    Build your product like this <ArrowRight className="h-4 w-4" />
-                  </ButtonLink>
-                  <ButtonLink href="/our-work" variant="secondary" size="lg">
-                    All case studies
-                  </ButtonLink>
-                </div>
-              </Reveal>
-            </div>
-
-            <Reveal delay={0.1} className="relative">
-              <div
-                aria-hidden
-                className="absolute -inset-6 -z-10 rounded-[2rem] bg-accent-gradient-br opacity-25 blur-3xl"
+        <div className="mt-10 grid items-end gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <p className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-muted">
+              <Image
+                src={c.images.icon}
+                alt=""
+                width={28}
+                height={28}
+                className="h-7 w-7 object-contain"
               />
-              <div
-                className={`relative overflow-hidden rounded-2xl border border-line bg-card shadow-2xl shadow-brand-violet/10 ${
-                  heroShape === "square" ? "aspect-square" : "aspect-[16/10]"
-                }`}
-              >
-                <Image
-                  src={c.images.hero}
-                  alt={c.images.heroAlt}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 560px, 100vw"
-                  className={heroFit === "cover" ? "object-cover" : "object-contain p-4"}
-                />
-              </div>
-            </Reveal>
+              {c.badge}
+            </p>
+            <h1 className="mt-6 text-5xl font-semibold leading-[0.92] tracking-tighter text-foreground sm:text-7xl">
+              {c.titleLead} <span className="text-accent">{c.titleAccent}</span>
+            </h1>
+            <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted">{c.summary}</p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <ButtonLink href="/contact-us" size="lg">
+                Build your product like this <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
+              <ButtonLink href="/our-work" variant="secondary" size="lg">
+                All case studies
+              </ButtonLink>
+            </div>
           </div>
 
-          {/* Project metadata bar */}
-          <Reveal delay={0.15} className="mt-12">
-            <Card hover={false} className="p-6">
-              <dl
-                className={`grid gap-6 sm:grid-cols-2 ${
-                  "lg:grid-cols-[1.2fr_0.8fr_0.9fr_1.6fr]"
-                }`}
-              >
-                {meta.map((m) => (
-                  <div key={m.label}>
-                    <dt className="text-xs font-semibold uppercase tracking-wider text-muted">
-                      {m.label}
-                    </dt>
-                    <dd className="mt-1.5 text-sm font-medium text-foreground">{m.value}</dd>
-                  </div>
-                ))}
-                <div className="sm:col-span-2 lg:col-span-1">
-                  <dt className="text-xs font-semibold uppercase tracking-wider text-muted">
-                    Tech stack
-                  </dt>
-                  <dd className="mt-1.5 flex flex-wrap gap-2">
-                    {stack.map((t) => (
-                      <Badge key={t} tone="violet">{t}</Badge>
-                    ))}
-                  </dd>
-                </div>
-              </dl>
-            </Card>
-          </Reveal>
+          <div className="lg:col-span-5">
+            <Frame
+              label={`${project.name} · case study`}
+              src={c.images.hero}
+              alt={c.images.heroAlt}
+              aspect={heroShape === "square" ? "aspect-square" : "aspect-[16/10]"}
+              fit={heroFit}
+              position="object-center"
+              priority
+              sizes="(min-width: 1024px) 42vw, 100vw"
+            />
+          </div>
         </div>
+
+        {/* Project metadata: raw rules, no box */}
+        <dl className="mt-16 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-12">
+          {meta.map((m, i) => (
+            <div
+              key={m.label}
+              className={cn("border-t border-foreground pt-3", i === 0 ? "lg:col-span-3" : "lg:col-span-2")}
+            >
+              <dt className="font-mono text-xs uppercase tracking-widest text-muted">{m.label}</dt>
+              <dd className="mt-2 text-sm font-medium text-foreground">{m.value}</dd>
+            </div>
+          ))}
+          <div className="border-t border-foreground pt-3 sm:col-span-2 lg:col-span-3 lg:col-start-10">
+            <dt className="font-mono text-xs uppercase tracking-widest text-muted">Tech stack</dt>
+            <dd className="mt-2 flex flex-wrap gap-x-3 gap-y-1 font-mono text-xs text-foreground">
+              {stack.map((t) => (
+                <span key={t}>{t}</span>
+              ))}
+            </dd>
+          </div>
+        </dl>
       </section>
 
-      {c.overview && <NarrativeSection s={c.overview} />}
+      {c.overview && <Narrative s={c.overview} index="01" />}
 
-      {/* 2. Key impact metrics */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <Reveal>
-          <SectionHeading
-            eyebrow="At a glance"
-            title={
-              <>
-                What we <GradientText>delivered</GradientText>
-              </>
-            }
-          />
-        </Reveal>
-        <ul
-          className={`mt-12 grid gap-4 sm:grid-cols-2 ${
-            c.metrics.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"
-          }`}
-        >
+      {/* 2. Metrics */}
+      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+        <Eyebrow index="02">At a glance</Eyebrow>
+        <h2 className={h2}>What we delivered.</h2>
+        <ul className="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-12">
           {c.metrics.map((m, i) => (
-            <Reveal as="li" key={m.label} delay={i * 0.08}>
-              <Card className="h-full p-6 text-center">
-                <p className="text-accent-gradient text-5xl font-extrabold tracking-tight">
-                  {m.value}
-                </p>
-                <p className="mt-3 font-semibold text-foreground">{m.label}</p>
-                <p className="mt-1 text-sm text-muted">{m.note}</p>
-              </Card>
-            </Reveal>
+            <li key={m.label} className={cn("border-t border-foreground pt-4", spans[i % spans.length])}>
+              <p
+                className={cn(
+                  "font-semibold leading-[0.85] tracking-tighter text-foreground tabular-nums",
+                  i === 0 ? "text-7xl sm:text-8xl" : "text-6xl",
+                )}
+              >
+                {m.value}
+              </p>
+              <p className="mt-4 font-mono text-xs uppercase tracking-widest text-foreground">{m.label}</p>
+              <p className="mt-1 max-w-[16rem] text-sm text-muted">{m.note}</p>
+            </li>
           ))}
         </ul>
       </section>
 
-      {/* 3. Challenge & solution */}
-      <section className="border-y border-line/80 bg-card/30">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-          <div className="grid gap-6 lg:grid-cols-2">
-            <Reveal>
-              <Card hover={false} className="h-full p-6 sm:p-8">
-                <span className={iconWell}>
-                  <AlertCircle className="h-5 w-5" />
-                </span>
-                <h2 className="mt-5 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                  {c.challenge.title}
-                </h2>
-                <p className="mt-3 text-muted">{c.challenge.intro}</p>
-                <ul className="mt-6 space-y-3">
-                  {c.challenge.points.map((p) => (
-                    <li key={p} className="flex items-start gap-3 text-foreground/90">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-muted" />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            </Reveal>
-
-            <Reveal delay={0.1}>
-              <Card
-                hover={false}
-                className="h-full border-brand-violet/40 p-6 shadow-[0_0_60px_-24px] shadow-brand-violet/50 sm:p-8"
-              >
-                <span className={iconWell}>
-                  <Check className="h-5 w-5" />
-                </span>
-                <h2 className="mt-5 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                  {c.solution.title}
-                </h2>
-                <p className="mt-3 text-muted">{c.solution.intro}</p>
-                <ul className="mt-6 space-y-3">
-                  {c.solution.points.map((p) => (
-                    <li key={p} className="flex items-start gap-3 text-foreground/90">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-violet/15 text-accent">
-                        <Check className="h-3 w-3" strokeWidth={3} />
-                      </span>
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            </Reveal>
+      {/* 3. Challenge (5) and solution (7, solid block) */}
+      <section className="border-b border-line">
+        <div className="grid lg:grid-cols-12">
+          <div className="px-4 py-20 sm:px-6 lg:col-span-5 lg:px-10">
+            <Eyebrow index="03">Challenge</Eyebrow>
+            <h2 className={h2}>{c.challenge.title}</h2>
+            <p className="mt-5 text-muted">{c.challenge.intro}</p>
+            <ul className="mt-8 border-t border-line">
+              {c.challenge.points.map((p) => (
+                <li key={p} className="border-b border-line py-3 text-sm text-foreground">{p}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="bg-brand-purple px-4 py-20 text-white sm:px-6 lg:col-span-7 lg:px-12">
+            <p className="font-mono text-xs uppercase tracking-widest text-white/70">04 / Solution</p>
+            <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-tighter sm:text-5xl">
+              {c.solution.title}
+            </h2>
+            <p className="mt-5 text-white/85">{c.solution.intro}</p>
+            <ul className="mt-8 border-t border-white/30">
+              {c.solution.points.map((p) => (
+                <li key={p} className="border-b border-white/30 py-3 text-sm">{p}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
-      {/* 4. Key features & technical architecture */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Key features"
-            title={
-              <>
-                {c.featuresHeading.lead}{" "}
-                <GradientText>{c.featuresHeading.accent}</GradientText>
-              </>
-            }
-            description={c.featuresHeading.description}
-          />
-        </Reveal>
+      {/* 4. Features */}
+      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+        <Eyebrow index="05">Key features</Eyebrow>
+        <h2 className={cn(h2, "max-w-4xl sm:text-6xl")}>
+          {c.featuresHeading.lead}{" "}
+          <span className="text-accent">{c.featuresHeading.accent}</span>
+        </h2>
+        <p className="mt-4 max-w-xl text-muted">{c.featuresHeading.description}</p>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
-          {c.features.map((f, i) =>
-            f.kind === "wide" ? (
-              <Reveal key={f.title} className="lg:col-span-2">
-                <Card className="grid h-full overflow-hidden lg:grid-cols-2">
-                  {/* The Figma PNG has transparent padding; scale zooms to the screens */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-brand-violet/15 via-card to-card">
-                    <Image
-                      src={f.image}
-                      alt={f.alt}
-                      fill
-                      sizes="(min-width: 1024px) 560px, 100vw"
-                      className={`origin-center object-contain ${f.zoom ? "scale-[1.3]" : "p-4"}`}
-                    />
-                  </div>
-                  <div className="flex flex-col justify-center p-6 sm:p-10">
-                    <span className={iconWell}>
-                      <f.icon className="h-5 w-5" />
-                    </span>
-                    <h3 className="mt-5 text-2xl font-bold text-foreground">{f.title}</h3>
-                    <p className="mt-2 text-muted">{f.text}</p>
-                    {f.bullets && (
-                      <ul className="mt-5 space-y-3">
-                        {f.bullets.map((b) => (
-                          <li key={b} className="flex items-start gap-3 text-foreground/90">
-                            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-violet/15 text-accent">
-                              <Check className="h-3 w-3" strokeWidth={3} />
-                            </span>
-                            {b}
-                          </li>
-                        ))}
-                      </ul>
+        <div className="mt-14 border-t border-line">
+          {c.features.map((f, i) => {
+            const wide = f.kind === "wide";
+            const flip = i % 2 === 1;
+            return (
+              <article
+                key={f.title}
+                className="grid items-center gap-8 border-b border-line py-10 lg:grid-cols-12 lg:gap-12"
+              >
+                <div
+                  className={cn(
+                    "relative overflow-hidden border border-line bg-card",
+                    wide
+                      ? "aspect-[4/3] lg:col-span-7"
+                      : "aspect-[4/5] lg:col-span-5",
+                    flip && (wide ? "lg:order-2 lg:col-span-5" : "lg:order-2 lg:col-span-7"),
+                  )}
+                >
+                  <Image
+                    src={f.image}
+                    alt={f.alt}
+                    fill
+                    sizes="(min-width: 1024px) 58vw, 100vw"
+                    quality={90}
+                    className={cn(
+                      "origin-center object-contain",
+                      wide && f.zoom ? "scale-[1.3]" : "p-4",
                     )}
-                  </div>
-                </Card>
-              </Reveal>
-            ) : (
-              <Reveal key={f.title} delay={(i % 2) * 0.1}>
-                <Card className="flex h-full flex-col overflow-hidden">
-                  <div className="relative aspect-[4/5] bg-gradient-to-br from-brand-violet/15 via-card to-card">
-                    <Image
-                      src={f.image}
-                      alt={f.alt}
-                      fill
-                      sizes="(min-width: 1024px) 540px, 100vw"
-                      className="object-contain p-6"
-                    />
-                  </div>
-                  <div className="flex items-start gap-4 p-6">
-                    <span className={iconWell}>
-                      <f.icon className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground">{f.title}</h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-muted">{f.text}</p>
-                    </div>
-                  </div>
-                </Card>
-              </Reveal>
-            ),
-          )}
+                  />
+                </div>
+                <div
+                  className={cn(
+                    wide ? "lg:col-span-5" : "lg:col-span-6 lg:col-start-7",
+                    flip && (wide ? "lg:order-1 lg:col-span-7 lg:pr-12" : "lg:order-1 lg:col-span-5 lg:col-start-1"),
+                  )}
+                >
+                  <p className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</p>
+                  <h3 className="mt-3 text-3xl font-semibold tracking-tighter text-foreground">{f.title}</h3>
+                  <p className="mt-3 max-w-md leading-relaxed text-muted">{f.text}</p>
+                  {f.bullets && (
+                    <ul className="mt-6 border-t border-line">
+                      {f.bullets.map((b) => (
+                        <li key={b} className="border-b border-line py-2.5 text-sm text-foreground">{b}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </article>
+            );
+          })}
         </div>
 
-        <ul className="mt-6 grid gap-4 md:grid-cols-3">
+        <ul className="mt-14 border-t border-line">
           {c.highlights.map((h, i) => (
-            <Reveal as="li" key={h.title} delay={i * 0.08}>
-              <Card className="flex h-full items-start gap-4 p-5">
-                <span className={iconWell}>
-                  <h.icon className="h-5 w-5" />
-                </span>
-                <div>
-                  <h3 className="font-semibold text-foreground">{h.title}</h3>
-                  <p className="mt-1 text-sm text-muted">{h.text}</p>
-                </div>
-              </Card>
-            </Reveal>
+            <li
+              key={h.title}
+              className="grid gap-2 border-b border-line py-6 transition-colors hover:bg-brand-purple hover:text-white lg:grid-cols-12 lg:gap-10 lg:px-6"
+            >
+              <span className="font-mono text-xs text-muted [li:hover>&]:text-white/70 lg:col-span-1">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="text-xl font-semibold tracking-tight lg:col-span-4">{h.title}</h3>
+              <p className="text-sm leading-relaxed text-muted [li:hover>&]:text-white/80 lg:col-span-6 lg:col-start-7">
+                {h.text}
+              </p>
+            </li>
           ))}
         </ul>
 
-        {/* Technical architecture */}
-        <Reveal className="mt-16">
-          <h3 className="text-center text-2xl font-bold tracking-tight text-foreground">
+        {/* Technical architecture: hairline flow */}
+        <div className="mt-20">
+          <p className="font-mono text-xs uppercase tracking-widest text-muted">Architecture</p>
+          <h3 className="mt-3 text-3xl font-semibold tracking-tighter text-foreground">
             {c.architecture.heading ?? "Technical architecture"}
           </h3>
-          <p className="mx-auto mt-2 max-w-xl text-center text-muted">
-            {c.architecture.intro}
-          </p>
-          <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <p className="mt-2 max-w-xl text-muted">{c.architecture.intro}</p>
+          <ol className="mt-8 grid border-l border-t border-line sm:grid-cols-2 lg:grid-flow-col lg:auto-cols-fr">
             {c.architecture.nodes.map((a, i) => (
-              <li key={a.label} className="relative">
-                <Card className="h-full p-5 text-center">
-                  <span className={`${iconWell} mx-auto`}>
-                    <a.icon className="h-5 w-5" />
-                  </span>
-                  <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted">
-                    {a.layer}
-                  </p>
-                  <p className="mt-1 font-semibold text-foreground">{a.label}</p>
-                  <Badge tone="violet" className="mt-3">{a.tech}</Badge>
-                </Card>
-                {i < c.architecture.nodes.length - 1 && (
-                  <ChevronRight
-                    aria-hidden
-                    className="absolute -right-3.5 top-1/2 z-10 hidden h-5 w-5 -translate-y-1/2 text-accent lg:block"
-                  />
-                )}
+              <li key={a.label} className="border-b border-r border-line p-5">
+                <p className="font-mono text-xs text-muted">
+                  {String(i + 1).padStart(2, "0")} · {a.layer}
+                </p>
+                <p className="mt-3 font-semibold text-foreground">{a.label}</p>
+                <p className="mt-1 font-mono text-xs text-accent">{a.tech}</p>
               </li>
             ))}
           </ol>
-        </Reveal>
+        </div>
       </section>
 
-      {c.brand && <NarrativeSection s={c.brand} tinted />}
+      {c.brand && <Narrative s={c.brand} index="06" />}
 
-      {/* 5. Client testimonial */}
+      {/* 5. Client review */}
       {review && (
-        <section className="mx-auto max-w-4xl px-4 pb-16 sm:px-6 sm:pb-24">
-          <Reveal>
-            <Card hover={false} className="relative overflow-hidden p-6 sm:p-10">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand-violet/20 blur-3xl"
-              />
-              <Quote
-                aria-hidden
-                className="absolute right-6 top-6 h-12 w-12 text-brand-violet/20"
-              />
-              <figure className="relative">
-                <Stars rating={review.rating} />
-                <blockquote className="mt-5 text-lg leading-relaxed text-foreground sm:text-xl">
-                  “{review.review}”
-                </blockquote>
-                <figcaption className="mt-8 flex items-center gap-4 border-t border-line pt-6">
-                  {review.photo && (
-                    <Image
-                      src={review.photo}
-                      alt={review.name}
-                      width={56}
-                      height={56}
-                      className="h-14 w-14 rounded-full object-cover ring-2 ring-brand-violet/40"
-                    />
-                  )}
-                  <div>
-                    <p className="font-semibold text-foreground">{review.name}</p>
-                    <p className="text-sm text-muted">
-                      {review.title}, {review.company}
-                    </p>
-                  </div>
-                </figcaption>
-              </figure>
-            </Card>
-          </Reveal>
+        <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+          <Eyebrow index="07">Client review</Eyebrow>
+          <blockquote className="mt-10 max-w-4xl border-l-2 border-brand-violet pl-6 sm:pl-10">
+            <Stars rating={review.rating} />
+            <p className="mt-5 text-xl leading-relaxed text-foreground sm:text-2xl">
+              &ldquo;{review.review}&rdquo;
+            </p>
+            <footer className="mt-8 flex items-center gap-4">
+              {review.photo && (
+                <Image
+                  src={review.photo}
+                  alt={review.name}
+                  width={56}
+                  height={56}
+                  className="h-14 w-14 border border-line object-cover"
+                />
+              )}
+              <span>
+                <span className="block font-semibold text-foreground">{review.name}</span>
+                <span className="block text-sm text-muted">
+                  {review.title}, {review.company}
+                </span>
+              </span>
+            </footer>
+          </blockquote>
         </section>
       )}
 
-      {/* 6. Next case study + CTA */}
-      <section className="mx-auto max-w-7xl px-4 pb-4 sm:px-6 lg:px-8">
-        <Reveal>
-          <div className="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-[1fr_2fr]">
-            <Link
-              href={`/our-work/${prev.slug}`}
-              className="group min-w-0 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-glow"
-            >
-              <Card className="flex h-full items-center gap-4 p-5">
-                <ArrowLeft className="h-5 w-5 shrink-0 text-muted transition-transform duration-300 group-hover:-translate-x-1 group-hover:text-accent" />
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-                    Previous
-                  </p>
-                  <p className="font-semibold text-foreground">{prev.name}</p>
-                </div>
-              </Card>
-            </Link>
-            <Link
-              href={`/our-work/${next.slug}`}
-              className="group min-w-0 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-glow"
-            >
-              <Card className="flex h-full items-center gap-5 p-5">
-                <div className="relative hidden h-20 w-32 shrink-0 overflow-hidden rounded-lg bg-brand-violet/10 sm:block">
-                  <Image
-                    src={next.image}
-                    alt=""
-                    fill
-                    sizes="128px"
-                    className="object-contain p-1"
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-accent">
-                    Next case study
-                  </p>
-                  <p className="mt-1 truncate text-xl font-semibold text-foreground">
-                    {next.name}
-                  </p>
-                  <p className="truncate text-sm text-muted">{next.tagline}</p>
-                </div>
-                <ArrowRight className="h-5 w-5 shrink-0 text-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent" />
-              </Card>
-            </Link>
-          </div>
-        </Reveal>
+      {/* 6. Previous / next */}
+      <section className="grid border-b border-line md:grid-cols-12">
+        <Link
+          href={`/our-work/${prev.slug}`}
+          className="group flex items-center gap-4 border-b border-line px-4 py-8 transition-colors hover:bg-brand-purple hover:text-white sm:px-6 md:col-span-4 md:border-b-0 md:border-r lg:px-10"
+        >
+          <ArrowLeft className="h-5 w-5 shrink-0 transition-transform group-hover:-translate-x-1" />
+          <span>
+            <span className="block font-mono text-xs uppercase tracking-widest text-muted group-hover:text-white/70">Previous</span>
+            <span className="mt-1 block text-xl font-semibold tracking-tight">{prev.name}</span>
+          </span>
+        </Link>
+        <Link
+          href={`/our-work/${next.slug}`}
+          className="group flex items-center justify-between gap-4 px-4 py-8 transition-colors hover:bg-brand-purple hover:text-white sm:px-6 md:col-span-8 lg:px-10"
+        >
+          <span>
+            <span className="block font-mono text-xs uppercase tracking-widest text-muted group-hover:text-white/70">Next case study</span>
+            <span className="mt-1 block text-3xl font-semibold tracking-tighter sm:text-4xl">{next.name}</span>
+            <span className="mt-1 block text-sm text-muted group-hover:text-white/80">{next.tagline}</span>
+          </span>
+          <ArrowRight className="h-6 w-6 shrink-0 transition-transform group-hover:translate-x-1" />
+        </Link>
       </section>
 
-      <CtaBanner
-        title={c.ctaTitle ?? "Build Your Product Like This"}
+      <NhCta
+        eyebrow="08 / Start"
+        title={c.ctaTitle ?? "Build your product like this."}
         description="Tell us about your idea and we'll show you how we'd bring it to life, from first sketch to launch."
-        label="Book a discovery call"
       />
     </>
   );

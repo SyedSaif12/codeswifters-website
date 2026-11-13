@@ -71,7 +71,7 @@ export function HeaderMasthead() {
     <header className="bg-background text-foreground">
       <div className="grid items-center gap-2 border-b-2 border-foreground px-4 py-5 sm:px-6 md:grid-cols-3 lg:px-10">
         <p className="hidden text-xs font-medium uppercase tracking-widest text-muted md:block">
-          Milton, ON &nbsp;/&nbsp; Karachi, PK
+          Milton, CA &nbsp;/&nbsp; Karachi, PK
         </p>
         <Link href="/" aria-label="CodeSwifters home" className="justify-self-center">
           <Logo />

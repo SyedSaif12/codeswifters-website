@@ -8,7 +8,7 @@ export function NhHero() {
   return (
     <section className="border-b border-line px-4 pb-20 pt-16 sm:px-6 sm:pt-24 lg:px-10">
       <p className="font-mono text-xs uppercase tracking-widest text-muted">
-        Software house · Milton, ON &amp; Karachi
+        Software house · Milton, CA &amp; Karachi
       </p>
       <h1 className="mt-6 max-w-5xl text-5xl font-semibold leading-[0.92] tracking-tighter text-foreground sm:text-7xl lg:text-8xl">
         Senior engineers.

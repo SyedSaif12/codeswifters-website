@@ -128,6 +128,6 @@ The palette is derived from the logo. **Never hardcode hex values or raw Tailwin
 
 ## 5. HOME PAGE COMPOSITION & FACTS
 
-- Home order: Hero, ClientLogos, TrustBand, Services index, HomeProcess, FeaturedWork, Testimonials, CtaBanner (`app/page.tsx`).
-- TrustBand figures must be real: 25+ senior engineers (owner-confirmed) plus counts derived from `lib/projects.ts`, `lib/testimonials.ts` and `lib/site.ts`. Never add "350+ experts", "30+ countries", a star rating or "Now booking Q4" until the owner confirms them (see `PRODUCT.md`).
+- Home order: NhHero, NhClientStrip, NhBento (capabilities), NhWork, NhProcess, NhTech, NhProof (figures), HomeReviews, NhCta (`app/page.tsx`, components in `components/new-homepage/`). The previous homepage is kept at `/old-homepage` for reference.
+- Homepage figures (NhProof) must be real: 25+ senior engineers (owner-confirmed) plus counts derived from `lib/projects.ts`, `lib/testimonials.ts` and `lib/site.ts`. Never add "350+ experts", "30+ countries", a star rating or "Now booking Q4" until the owner confirms them (see `PRODUCT.md`).
 - The six process stages live in `lib/process.ts`.

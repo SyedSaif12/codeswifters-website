@@ -1,14 +1,16 @@
 "use client";
 
+import { Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Eyebrow } from "@/components/new-homepage/Frame";
 import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
 import { site } from "@/lib/site";
 
 const inputClass =
-  "w-full rounded-xl border border-line bg-background/60 px-4 py-3 text-sm text-foreground placeholder:text-muted transition-colors focus:border-brand-glow/60 focus:outline-none focus:ring-2 focus:ring-brand-glow/20";
+  "w-full rounded-none border border-line bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted transition-colors hover:border-muted focus:border-brand-violet focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-glow";
+
+const labelClass =
+  "mb-2 block font-mono text-xs uppercase tracking-widest text-muted";
 
 export function Contact() {
   const [sent, setSent] = useState(false);
@@ -25,23 +27,12 @@ export function Contact() {
     setSent(true);
   }
 
-  const info = [
-    {
-      icon: Mail,
-      title: "Write Email",
-      lines: [site.email],
-      href: `mailto:${site.email}`,
-    },
-    {
-      icon: Phone,
-      title: "Phone Number",
-      lines: [site.phone],
-      href: site.phoneHref,
-    },
+  const rows = [
+    { label: "Email", value: site.email, href: `mailto:${site.email}` },
+    { label: "Phone", value: site.phone, href: site.phoneHref },
     ...site.offices.map((o) => ({
-      icon: MapPin,
-      title: `${o.country} Office`,
-      lines: [o.address],
+      label: o.country === "Canada" ? "Milton, CA" : "Karachi, PK",
+      value: o.address,
       href: undefined as string | undefined,
     })),
   ];
@@ -49,85 +40,93 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="mx-auto max-w-7xl scroll-mt-20 px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
+      className="scroll-mt-20 border-b border-line px-4 py-24 sm:px-6 lg:px-10"
     >
-      <SectionHeading
-        eyebrow="Connect With Us"
-        title={
-          <>
-            Let&apos;s build <GradientText>what&apos;s next</GradientText>
-          </>
-        }
-        description="Reach out and start a conversation today. We reply within one business day."
-      />
-
-      <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-        <div className="space-y-4">
-          {info.map(({ icon: Icon, title, lines, href }) => {
-            const body = (
-              <Card className="flex items-start gap-4 p-5">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-violet/10 text-accent ring-1 ring-line">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <div className="min-w-0">
-                  <p className="font-semibold text-foreground">{title}</p>
-                  {lines.map((l) => (
-                    <p key={l} className="break-words text-sm text-muted">
-                      {l}
-                    </p>
-                  ))}
-                </div>
-              </Card>
-            );
-            return href ? (
-              <a key={title} href={href} className="block rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-glow">
-                {body}
-              </a>
-            ) : (
-              <div key={title}>{body}</div>
-            );
-          })}
+      <div className="grid gap-16 lg:grid-cols-12">
+        {/* Details: 5 */}
+        <div className="lg:col-span-5">
+          <Eyebrow index="01">Reach us</Eyebrow>
+          <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-5xl">
+            We reply within one business day.
+          </h2>
+          <ul className="mt-10 border-t border-line">
+            {rows.map((r) => {
+              const inner = (
+                <>
+                  <span className="font-mono text-xs uppercase tracking-widest text-muted group-hover:text-white/70">
+                    {r.label}
+                  </span>
+                  <span className="mt-1 block break-words text-lg font-medium tracking-tight">
+                    {r.value}
+                  </span>
+                </>
+              );
+              return (
+                <li key={r.label} className="border-b border-line">
+                  {r.href ? (
+                    <a
+                      href={r.href}
+                      className="group block py-5 transition-colors hover:bg-brand-purple hover:px-4 hover:text-white"
+                    >
+                      {inner}
+                    </a>
+                  ) : (
+                    <div className="group py-5">{inner}</div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </div>
 
-        <Card hover={false} className="p-6 sm:p-8">
-          <form onSubmit={onSubmit} className="space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="name" className="mb-1.5 block text-sm text-foreground/80">
-                  Name
-                </label>
-                <input id="name" name="name" required placeholder="Jane Doe" className={inputClass} />
-              </div>
-              <div>
-                <label htmlFor="email" className="mb-1.5 block text-sm text-foreground/80">
-                  Email
-                </label>
-                <input id="email" name="email" type="email" required placeholder="jane@company.com" className={inputClass} />
-              </div>
+        {/* Form: 7 */}
+        <form
+          onSubmit={onSubmit}
+          className="space-y-6 border border-line bg-card p-6 sm:p-10 lg:col-span-7"
+        >
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label htmlFor="name" className={labelClass}>
+                Name
+              </label>
+              <input id="name" name="name" required placeholder="Jane Doe" className={inputClass} />
             </div>
             <div>
-              <label htmlFor="message" className="mb-1.5 block text-sm text-foreground/80">
-                Project details
+              <label htmlFor="email" className={labelClass}>
+                Email
               </label>
-              <textarea
-                id="message"
-                name="message"
+              <input
+                id="email"
+                name="email"
+                type="email"
                 required
-                rows={5}
-                placeholder="What are you building, and what does success look like?"
+                placeholder="jane@company.com"
                 className={inputClass}
               />
             </div>
-            <Button type="submit" size="lg" className="w-full">
-              <Send className="h-4 w-4" /> Send message
-            </Button>
-            {sent && (
-              <p role="status" className="text-center text-sm text-accent">
-                Opening your email app to send the message…
-              </p>
-            )}
-          </form>
-        </Card>
+          </div>
+          <div>
+            <label htmlFor="message" className={labelClass}>
+              Project details
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows={6}
+              placeholder="What are you building, and what does success look like?"
+              className={inputClass}
+            />
+          </div>
+          <Button type="submit" size="lg" className="w-full sm:w-auto">
+            <Send className="h-4 w-4" /> Send message
+          </Button>
+          {sent && (
+            <p role="status" className="text-sm text-accent">
+              Opening your email app to send the message…
+            </p>
+          )}
+        </form>
       </div>
     </section>
   );

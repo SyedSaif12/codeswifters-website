@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import {
   FooterCompactLight,
   FooterLedger,
+  FooterNewDesign,
   FooterSitemap,
   FooterTwoTone,
 } from "@/components/layout-options/FooterOptions";
@@ -52,7 +53,7 @@ export default function HeadersAndFooters() {
           Headers &amp; footers.
         </h1>
         <p className="mt-6 max-w-2xl text-base text-foreground/75">
-          Four new headers and four new footers, all flat and on-brand. The
+          Four header options and five footer options, all flat and on-brand. The
           header at the very top and the footer at the very bottom of this page
           are your current live ones. Tell me e.g. &ldquo;header 3 and footer
           2&rdquo; and I will apply them across the whole site with the sticky,
@@ -92,6 +93,9 @@ export default function HeadersAndFooters() {
       </Option>
       <Option n="F4" name="Two-Tone" note="Light statement + links, midnight legal bar">
         <FooterTwoTone />
+      </Option>
+      <Option n="F5" name="New Design" note="Matches the new header and pages: page canvas, hairlines, mono labels, hover-flood links">
+        <FooterNewDesign />
       </Option>
     </div>
   );

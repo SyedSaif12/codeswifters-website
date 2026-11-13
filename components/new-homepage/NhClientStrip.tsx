@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-// Only logos with transparent backgrounds can be flattened to one tone.
 const LOGOS = [
   { file: "wedfluencer.png", name: "WEDFluencer" },
   { file: "nexus.png", name: "Nexus" },
@@ -14,7 +13,7 @@ const LOGOS = [
   { file: "dolphin-merchant-logo.png", name: "Dolphin Merchant" },
 ];
 
-/** Hairline-divided monochrome logo bar. Logos are flattened to the foreground tone. */
+/** Hairline-divided monochrome logo bar: grayscale logos on white tiles so detail survives in both themes. */
 export function NhClientStrip() {
   return (
     <section
@@ -28,7 +27,7 @@ export function NhClientStrip() {
         {LOGOS.map((l) => (
           <li
             key={l.file}
-            className="group flex h-24 items-center justify-center border-b border-r border-line px-6 transition-colors hover:bg-card"
+            className="group flex h-24 items-center justify-center border-b border-r border-line bg-white px-6"
           >
             <div className="relative h-9 w-full">
               <Image
@@ -36,7 +35,7 @@ export function NhClientStrip() {
                 alt={l.name}
                 fill
                 sizes="160px"
-                className="object-contain opacity-50 brightness-0 transition-opacity duration-200 group-hover:opacity-100 dark:invert"
+                className="object-contain opacity-60 grayscale transition duration-200 group-hover:opacity-100 group-hover:grayscale-0 motion-reduce:transition-none"
               />
             </div>
           </li>

@@ -1,5 +1,5 @@
-import { ChevronDown } from "lucide-react";
-import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
+import { Plus } from "lucide-react";
+import { Eyebrow } from "@/components/new-homepage/Frame";
 import { site } from "@/lib/site";
 
 const faqs = [
@@ -17,34 +17,35 @@ const faqs = [
   },
 ];
 
+/** Ledger FAQ: heading (4) + hairline disclosure rows (8). */
 export function Faq() {
   return (
-    <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24">
-      <SectionHeading
-        eyebrow="FAQ"
-        title={
-          <>
-            Any <GradientText>questions?</GradientText>
-          </>
-        }
-        description="Our team is here to provide answers. Reach out for personalized assistance and prompt responses."
-      />
-      <div className="mt-10 space-y-3">
-        {faqs.map(({ q, a }) => (
-          <details
-            key={q}
-            className="group rounded-2xl border border-line bg-card/70 p-5 backdrop-blur-xl transition-colors open:border-brand-violet/40"
-          >
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-foreground [&::-webkit-details-marker]:hidden">
-              {q}
-              <ChevronDown
-                aria-hidden
-                className="h-5 w-5 shrink-0 text-muted transition-transform duration-300 group-open:rotate-180"
-              />
-            </summary>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{a}</p>
-          </details>
-        ))}
+    <section className="px-4 py-24 sm:px-6 lg:px-10">
+      <div className="grid gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <Eyebrow index="03">FAQ</Eyebrow>
+          <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-5xl">
+            Any questions?
+          </h2>
+          <p className="mt-4 max-w-xs text-muted">
+            Our team is here with answers. Reach out for personalized
+            assistance and prompt responses.
+          </p>
+        </div>
+        <div className="border-t border-line lg:col-span-8">
+          {faqs.map(({ q, a }) => (
+            <details key={q} className="group border-b border-line">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-6 text-xl font-semibold tracking-tight text-foreground transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
+                {q}
+                <Plus
+                  aria-hidden
+                  className="h-5 w-5 shrink-0 transition-transform duration-200 group-open:rotate-45 motion-reduce:transition-none"
+                />
+              </summary>
+              <p className="max-w-2xl pb-6 leading-relaxed text-muted">{a}</p>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
   );

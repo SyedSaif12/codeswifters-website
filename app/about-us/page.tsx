@@ -1,152 +1,175 @@
 import type { Metadata } from "next";
-import { Compass, Lightbulb, Rocket, Target, Users, type LucideIcon } from "lucide-react";
-import { ClientLogos } from "@/components/sections/ClientLogos";
-import { CtaBanner } from "@/components/sections/CtaBanner";
-import { FeaturedWork } from "@/components/sections/FeaturedWork";
-import { PageHero } from "@/components/sections/PageHero";
-import { Card } from "@/components/ui/Card";
-import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
+import { Eyebrow } from "@/components/new-homepage/Frame";
+import { NhClientStrip } from "@/components/new-homepage/NhClientStrip";
+import { NhCta } from "@/components/new-homepage/NhCta";
+import { NhWork } from "@/components/new-homepage/NhWork";
+import { PageIntro } from "@/components/new-homepage/PageIntro";
+import { projects } from "@/lib/projects";
+import { site } from "@/lib/site";
+import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "CodeSwifters is a full-cycle product development company with expert designers and developers serving clients in 30+ countries.",
+    "CodeSwifters is a full-cycle product development company: 25+ senior designers and engineers building web, mobile and AI products from Milton, CA and Karachi.",
 };
 
-const stats = [
-  { value: "30+", label: "Countries served" },
+// Only verifiable figures: headcount is owner-confirmed, the rest is counted from site data.
+const facts = [
   { value: "25+", label: "Senior engineers" },
-  { value: "4.9/5", label: "Average client rating" },
+  { value: String(projects.length), label: "Products shipped" },
+  { value: String(testimonials.length), label: "Client reviews" },
+  { value: String(site.offices.length), label: "Offices" },
 ];
 
-const values: { icon: LucideIcon; title: string; text: string }[] = [
+const values = [
   {
-    icon: Users,
-    title: "Client-Centric Approach",
+    title: "Client-centric approach",
     text: "We put our clients at the center of everything we do, tailoring each project to your unique goals and challenges.",
   },
   {
-    icon: Target,
-    title: "Expert Team",
+    title: "Expert team",
     text: "Our multidisciplinary team combines deep technical expertise with creative problem-solving to deliver exceptional results.",
   },
   {
-    icon: Lightbulb,
-    title: "Innovative Solutions",
+    title: "Innovative solutions",
     text: "We harness the latest tools and technologies to build scalable, future-proof digital products.",
+  },
+];
+
+const beliefs = [
+  {
+    q: "What is our mission?",
+    a: "To deliver cutting-edge, expert solutions that help businesses innovate, scale, and thrive in the digital economy.",
+  },
+  {
+    q: "What drives us?",
+    a: "A passion for technology, commitment to client success, and a belief that innovation starts with collaboration.",
+  },
+  {
+    q: "What do we bring to life?",
+    a: "New digital ideas. By focusing on scalability, efficiency, and a low total cost of ownership, we help organizations accelerate their digital transformation.",
   },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <PageHero
-        eyebrow="About Us"
+      <PageIntro
+        crumbs={[{ label: "Home", href: "/" }, { label: "About us" }]}
         title={
           <>
-            Expert Web Designers &amp; Developers{" "}
-            <span className="text-accent-gradient">Shaping the Digital Future</span>
+            The senior team
+            <br />
+            <span className="text-accent">behind the product.</span>
           </>
         }
         description="We are a full-cycle product development company that combines creative thinking with technical expertise to create user-centric products that solve real problems and drive business growth."
-        crumbs={[{ label: "Home", href: "/" }, { label: "About Us" }]}
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Pioneering Digital Innovation Across{" "}
-              <GradientText>30+ Countries</GradientText>
-            </h2>
-            <p className="mt-4 text-muted">
-              Our solutions have no boundaries. From Silicon Valley startups to
-              global enterprises, we collaborate with clients worldwide to
-              deliver high-impact software solutions. With a future-ready
-              mindset and a focus on long-term partnerships, we empower
-              businesses to grow with confidence.
-            </p>
-          </div>
-          <dl className="grid grid-cols-3 gap-2 sm:gap-4">
-            {stats.map((s) => (
-              <Card key={s.label} className="min-w-0 p-3 text-center sm:p-5">
-                <dd className="text-2xl font-extrabold text-foreground sm:text-4xl">
-                  {s.value}
+      {/* Story (7) + numbers (5) */}
+      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+        <Eyebrow index="01">Who we are</Eyebrow>
+        <div className="mt-10 grid gap-14 lg:grid-cols-12">
+          <p className="text-3xl font-medium leading-[1.15] tracking-tight text-foreground sm:text-4xl lg:col-span-7">
+            Expert designers and developers who stay with a product from the
+            first sketch to the store release, and after it.
+            <span className="text-muted">
+              {" "}
+              We collaborate with clients worldwide on high-impact software,
+              with a focus on long-term partnerships.
+            </span>
+          </p>
+          <dl className="grid grid-cols-2 gap-px border border-line bg-line lg:col-span-5 lg:self-start">
+            {facts.map((f) => (
+              <div key={f.label} className="bg-background p-6">
+                <dd className="text-6xl font-semibold leading-none tracking-tighter text-foreground tabular-nums">
+                  {f.value}
                 </dd>
-                <dt className="mt-1 text-[11px] leading-tight text-muted sm:text-sm">{s.label}</dt>
-              </Card>
+                <dt className="mt-3 font-mono text-xs uppercase tracking-widest text-muted">
+                  {f.label}
+                </dt>
+              </div>
             ))}
           </dl>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 sm:pb-20 lg:px-8">
-        <ul className="grid gap-4 md:grid-cols-3">
-          {values.map(({ icon: Icon, title, text }) => (
-            <li key={title}>
-              <Card className="h-full p-6">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-violet/10 text-accent ring-1 ring-line">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold text-foreground">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{text}</p>
-              </Card>
+      {/* Values ledger */}
+      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+        <Eyebrow index="02">How we work</Eyebrow>
+        <ul className="mt-10 border-t border-line">
+          {values.map((v, i) => (
+            <li
+              key={v.title}
+              className="grid gap-4 border-b border-line py-8 transition-colors hover:bg-brand-purple hover:text-white lg:grid-cols-12 lg:gap-10 lg:px-6"
+            >
+              <span className="font-mono text-xs text-muted lg:col-span-1">
+                0{i + 1}
+              </span>
+              <h3 className="text-3xl font-semibold tracking-tighter sm:text-4xl lg:col-span-5">
+                {v.title}
+              </h3>
+              <p className="max-w-md text-muted [li:hover>&]:text-white/80 lg:col-span-5 lg:col-start-8">
+                {v.text}
+              </p>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="border-y border-line/80 bg-card/30">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-          <SectionHeading
-            eyebrow="Who We Are"
-            title={
-              <>
-                Elevating brands with{" "}
-                <GradientText>strategy and visionary design</GradientText>
-              </>
-            }
-          />
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {[
-              {
-                icon: Rocket,
-                title: "What's our mission?",
-                text: "To deliver cutting-edge, expert solutions that help businesses innovate, scale, and thrive in the digital economy.",
-              },
-              {
-                icon: Compass,
-                title: "What drives us?",
-                text: "A passion for technology, commitment to client success, and a belief that innovation starts with collaboration.",
-              },
-              {
-                icon: Lightbulb,
-                title: "Bringing new digital ideas to life",
-                text: "We are a global technology provider helping businesses accelerate their digital transformation journey. By focusing on scalability, efficiency, and a low total cost of ownership, we empower organizations to thrive in a rapidly evolving digital world.",
-              },
-            ].map(({ icon: Icon, title, text }) => (
-              <Card key={title} className="p-6 sm:p-8">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-violet/10 text-accent ring-1 ring-line">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <h3 className="mt-5 text-xl font-semibold text-foreground">{title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{text}</p>
-              </Card>
-            ))}
+      {/* Beliefs: 4 / 8 */}
+      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+        <div className="grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <Eyebrow index="03">What we believe</Eyebrow>
+            <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-5xl">
+              Strategy first. Then visionary design.
+            </h2>
           </div>
+          <dl className="border-t border-line lg:col-span-8">
+            {beliefs.map((b) => (
+              <div
+                key={b.q}
+                className="grid gap-2 border-b border-line py-6 sm:grid-cols-[14rem_1fr] sm:gap-8"
+              >
+                <dt className="font-semibold tracking-tight text-foreground">
+                  {b.q}
+                </dt>
+                <dd className="leading-relaxed text-muted">{b.a}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
-      <FeaturedWork
-        slugs={["nexus", "mcs", "wedfluencer", "luxe-vault"]}
-        title={
-          <>
-            See what <GradientText>we&apos;ve built</GradientText>
-          </>
-        }
+      {/* Offices */}
+      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+        <Eyebrow index="04">Offices</Eyebrow>
+        <ul className="mt-10 grid gap-x-10 gap-y-10 lg:grid-cols-12">
+          {site.offices.map((o, i) => (
+            <li
+              key={o.country}
+              className={`border-t border-foreground pt-4 ${
+                i === 0 ? "lg:col-span-5" : "lg:col-span-6 lg:col-start-7"
+              }`}
+            >
+              <p className="text-5xl font-semibold tracking-tighter text-foreground sm:text-6xl">
+                {o.country === "Canada" ? "Milton, CA" : "Karachi, PK"}
+              </p>
+              <p className="mt-4 max-w-sm text-sm text-muted">{o.address}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <NhWork index="05" eyebrow="What we have built" heading="Work that speaks for the team." />
+      <NhClientStrip />
+      <NhCta
+        eyebrow="06 / Start"
+        title="Meet the team that will build yours."
+        description="Send a brief, a sketch or a half-formed plan. A senior engineer replies with questions, a rough scope and a realistic timeline."
       />
-      <ClientLogos />
-      <CtaBanner />
     </>
   );
 }

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { ClientLogos } from "@/components/sections/ClientLogos";
-import { CtaBanner } from "@/components/sections/CtaBanner";
-import { PageHero } from "@/components/sections/PageHero";
+import { NhClientStrip } from "@/components/new-homepage/NhClientStrip";
+import { NhCta } from "@/components/new-homepage/NhCta";
+import { PageIntro } from "@/components/new-homepage/PageIntro";
 import { WorkGrid } from "@/components/sections/WorkGrid";
+import { projects } from "@/lib/projects";
 
 export const metadata: Metadata = {
   title: "Our Work",
@@ -13,19 +14,21 @@ export const metadata: Metadata = {
 export default function OurWorkPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Our Work"
+      <PageIntro
+        crumbs={[{ label: "Home", href: "/" }, { label: "Our work" }]}
         title={
           <>
-            Products we&apos;ve <span className="text-accent-gradient">built &amp; launched</span>
+            Products we have
+            <br />
+            <span className="text-accent">built and launched.</span>
           </>
         }
-        description="Our company cares about people and doing things the right way. We believe in honesty, good work, and making our clients happy."
-        crumbs={[{ label: "Home", href: "/" }, { label: "Our Work" }]}
+        description={`${projects.length} products, each with a full case study. We believe in honesty, good work, and making our clients happy.`}
       />
       <WorkGrid />
-      <ClientLogos />
-      <CtaBanner
+      <NhClientStrip />
+      <NhCta
+        eyebrow="Start"
         title="Have a project in mind?"
         description="Let's discuss how we can turn your vision into a robust, scalable, and smart digital solution."
       />

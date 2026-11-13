@@ -1,49 +1,20 @@
 'use client';
 
-import { useSyncExternalStore } from 'react';
+import { ArrowUp } from 'lucide-react';
 import Link from 'next/link';
-import { ArrowUp, ArrowUpRight } from 'lucide-react';
-import { ButtonLink } from '@/components/ui/Button';
+import { useSyncExternalStore } from 'react';
 import { Logo } from '@/components/ui/Logo';
-import { Reveal } from '@/components/ui/Reveal';
-import { serviceLinks, site } from '@/lib/site';
-
-const company = [
-  { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/about-us' },
-  { label: 'Our Work', href: '/our-work' },
-  { label: 'Contact Us', href: '/contact-us' },
-];
+import { navLinks, serviceLinks, site } from '@/lib/site';
 
 const noopSubscribe = () => () => {};
 
-/** Footer link: arrow slides in from the left on hover. */
-function FootLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className='group inline-flex items-center gap-2 py-1 text-base text-white/80 hover:text-white'
-    >
-      <ArrowUpRight
-        aria-hidden
-        className='-ml-6 h-4 w-4 opacity-0 transition-all duration-200 group-hover:ml-0 group-hover:opacity-100'
-      />
-      <span className='-ml-0 transition-transform duration-200'>
-        {children}
-      </span>
-    </Link>
-  );
-}
+const col = 'font-mono text-xs uppercase tracking-widest text-muted';
+const link =
+  'block border-b border-line py-2.5 text-sm text-foreground transition-colors hover:bg-brand-purple hover:px-3 hover:text-white';
 
 /**
- * Solid midnight footer: oversized call to action, a 4 / 3 / 2 / 3 link grid
- * with raw dividers, and an edge-to-edge wordmark cropped at the bottom.
+ * Site footer: page canvas, hairline rules, mono labels, hover-flood links and
+ * an edge-to-edge wordmark in the hairline tone. Matches the header.
  */
 export function Footer() {
   // Server snapshot keeps the static prerender clock-free; the client
@@ -55,96 +26,70 @@ export function Footer() {
   );
 
   return (
-    <footer className='overflow-hidden bg-brand-midnight text-white'>
+    <footer className='overflow-hidden border-t border-line bg-background text-foreground'>
       <div className='px-4 sm:px-6 lg:px-10'>
-        {/* Call to action */}
-        {/* <Reveal className="grid gap-12 border-b border-white/25 pb-16 pt-24 lg:grid-cols-12 lg:gap-10 lg:pb-20 lg:pt-32">
-          <div className="lg:col-span-8">
-            <p className="text-xs font-medium uppercase tracking-widest text-white/70">
-              Have a product to build?
-            </p>
-            <h2 className="mt-6 text-5xl font-semibold leading-[0.9] tracking-tighter sm:text-7xl lg:text-8xl">
-              Let&rsquo;s build it together.
-            </h2>
-          </div>
-          <div className="flex flex-col items-start justify-end gap-6 lg:col-span-4">
-            <ButtonLink
-              href="/contact-us"
-              variant="light"
-              size="lg"
-              className="bg-white text-brand-midnight hover:bg-brand-purple hover:text-white"
-            >
-              Book a free strategy call <ArrowUpRight className="h-4 w-4" />
-            </ButtonLink>
-            <a
-              href={`mailto:${site.email}`}
-              className="break-all text-xl font-medium tracking-tight underline decoration-2 underline-offset-8 hover:decoration-white/50 sm:text-2xl"
-            >
-              {site.email}
-            </a>
-          </div>
-        </Reveal> */}
-
-        {/* Link grid */}
-        <div className='grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10 lg:py-16'>
-          <div className='sm:col-span-2 lg:col-span-4'>
+        <div className='grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10'>
+          <div className='sm:col-span-2 lg:col-span-5'>
             <Link
               href='/'
               aria-label='CodeSwifters home'
               className='inline-block'
             >
-              <Logo onDark />
+              <Logo />
             </Link>
-            <p className='mt-5 max-w-xs text-sm leading-relaxed text-white/75'>
+            <p className='mt-6 max-w-sm text-sm leading-relaxed text-muted'>
               Custom software, web platforms, mobile apps and AI features, built
-              by a senior team in Milton and Karachi.
+              by 25+ senior engineers in Milton, CA and Karachi, PK.
             </p>
             <a
+              href={`mailto:${site.email}`}
+              className='mt-8 block break-words text-3xl font-semibold tracking-tighter hover:text-accent sm:text-4xl'
+            >
+              {site.email}
+            </a>
+            <a
               href={site.phoneHref}
-              className='mt-6 inline-block text-lg font-medium hover:text-white/70'
+              className='mt-2 block text-sm text-muted hover:text-foreground'
             >
               {site.phone}
             </a>
           </div>
 
-          <div className='lg:col-span-3'>
-            <h3 className='text-xs font-medium uppercase tracking-widest text-white/60'>
-              Services
-            </h3>
-            <ul className='mt-4'>
-              {serviceLinks.map((l) => (
-                <li key={l.href}>
-                  <FootLink href={l.href}>{l.label}</FootLink>
+          <div className='lg:col-span-3 lg:col-start-7'>
+            <h3 className={col}>Services</h3>
+            <ul className='mt-4 border-t border-line'>
+              {serviceLinks.map((s) => (
+                <li key={s.href}>
+                  <Link href={s.href} className={link}>
+                    {s.label}
+                  </Link>
                 </li>
               ))}
               <li>
-                <FootLink href='/services'>All Services</FootLink>
+                <Link href='/services' className={link}>
+                  All services
+                </Link>
               </li>
             </ul>
           </div>
 
-          <div className='lg:col-span-2'>
-            <h3 className='text-xs font-medium uppercase tracking-widest text-white/60'>
-              Company
-            </h3>
-            <ul className='mt-4'>
-              {company.map((l) => (
+          <div className='lg:col-span-3'>
+            <h3 className={col}>Company</h3>
+            <ul className='mt-4 border-t border-line'>
+              {navLinks.map((l) => (
                 <li key={l.href}>
-                  <FootLink href={l.href}>{l.label}</FootLink>
+                  <Link href={l.href} className={link}>
+                    {l.label}
+                  </Link>
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className='sm:col-span-2 lg:col-span-3'>
-            <h3 className='text-xs font-medium uppercase tracking-widest text-white/60'>
-              Offices
-            </h3>
-            <ul className='mt-4 space-y-5 text-sm leading-relaxed text-white/80'>
+            <h3 className={`${col} mt-8`}>Offices</h3>
+            <ul className='mt-4 space-y-3 border-t border-line pt-3 text-sm text-muted'>
               {site.offices.map((o) => (
                 <li key={o.country}>
-                  <span className='block text-base font-medium text-white'>
-                    {o.country}
+                  <span className='block font-medium text-foreground'>
+                    {o.country === 'Canada' ? 'Milton, CA' : 'Karachi, PK'}
                   </span>
                   {o.address}
                 </li>
@@ -153,8 +98,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Legal bar */}
-        <div className='flex flex-col justify-between gap-5 border-t border-white/25 py-6 text-xs text-white/70 sm:flex-row sm:items-center'>
+        <div className='flex flex-col justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted sm:flex-row sm:items-center'>
           <p>© {year} CodeSwifters. All rights reserved.</p>
           <div className='flex flex-wrap items-center gap-x-6 gap-y-3'>
             <ul className='flex gap-6'>
@@ -164,7 +108,7 @@ export function Footer() {
                     href={href}
                     target='_blank'
                     rel='noreferrer'
-                    className='underline-offset-4 hover:text-white hover:underline'
+                    className='underline-offset-4 hover:text-foreground hover:underline'
                   >
                     {label}
                   </a>
@@ -174,7 +118,7 @@ export function Footer() {
             <button
               type='button'
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className='inline-flex items-center gap-2 border border-white/30 px-3 py-2 font-medium hover:border-white hover:bg-white hover:text-brand-midnight'
+              className='inline-flex items-center gap-2 border border-line px-3 py-2 font-medium text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background'
             >
               Back to top <ArrowUp className='h-3.5 w-3.5' />
             </button>
@@ -182,10 +126,10 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Edge-to-edge wordmark, solid brand purple, cropped by the page edge */}
+      {/* Edge-to-edge wordmark in the hairline tone, cropped by the page edge */}
       <p
         aria-hidden
-        className='mt-4 select-none whitespace-nowrap text-center text-[14.5vw] font-semibold leading-[0.78] tracking-tighter text-brand-purple'
+        className='select-none whitespace-nowrap text-center text-[14.5vw] font-semibold leading-[0.78] tracking-tighter text-line'
       >
         CodeSwifters
       </p>

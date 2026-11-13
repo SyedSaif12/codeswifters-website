@@ -16,7 +16,7 @@ export const site = {
   offices: [
     {
       country: "Canada",
-      address: "651 McEastern Path, Milton, ON, Canada",
+      address: "651 McEastern Path, Milton, CA, Canada",
     },
     {
       country: "Pakistan",

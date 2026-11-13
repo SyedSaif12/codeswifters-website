@@ -1,28 +1,21 @@
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
-import { MobileVisual, WebAppVisual, WebVisual } from "@/components/sections/DevVisuals";
-import { AiVisual, CustomSoftwareVisual } from "@/components/sections/ServiceVisuals";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { ClientLogos } from "@/components/sections/ClientLogos";
-import { CtaBanner } from "@/components/sections/CtaBanner";
-import { PageHero } from "@/components/sections/PageHero";
+import { NhClientStrip } from "@/components/new-homepage/NhClientStrip";
+import { NhCta } from "@/components/new-homepage/NhCta";
+import { NhTech } from "@/components/new-homepage/NhTech";
+import { PageIntro } from "@/components/new-homepage/PageIntro";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
-import { TechStack } from "@/components/sections/TechStack";
 import { ButtonLink } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import { services } from "@/lib/services";
 import { otherCapabilities } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
     "Custom software, web development, web applications, mobile apps and AI-powered solutions, delivered end to end by CodeSwifters.",
-};
-
-const cardVisuals: Record<string, React.ReactNode> = {
-  "mobile-development": <MobileVisual />,
-  "web-development": <WebVisual />,
-  "web-applications": <WebAppVisual />,
 };
 
 const blurbs: Record<string, string> = {
@@ -34,110 +27,144 @@ const blurbs: Record<string, string> = {
     "Robust, scalable and secure web applications that solve real business challenges.",
 };
 
+const extraImages: Record<string, { src: string; alt: string; fit: string }> = {
+  "custom-software": {
+    src: "/assets/home/offer-custom-software.png",
+    alt: "Custom software dashboards built by CodeSwifters",
+    fit: "object-cover",
+  },
+  ai: {
+    src: "/assets/services/ai-solutions.png",
+    alt: "AI-powered solutions",
+    fit: "object-contain p-6",
+  },
+};
+
+const extraDetail: Record<string, string> = {
+  ai: "We embed intelligent AI into your web and mobile systems to automate workflows, personalize user experiences, and turn data into real business insights.",
+  "custom-software":
+    "One intelligent ecosystem connecting your web, mobile, and AI into a single powerful business solution.",
+};
+
+function Row({
+  i,
+  title,
+  text,
+  extra,
+  image,
+  imageClass,
+  alt,
+  href,
+  id,
+}: {
+  i: number;
+  title: string;
+  text: string;
+  extra?: string;
+  image: string;
+  imageClass: string;
+  alt: string;
+  href?: string;
+  id?: string;
+}) {
+  const flip = i % 2 === 1;
+  const body = (
+    <>
+      <div className={cn("relative aspect-[16/10] overflow-hidden border border-line bg-card lg:col-span-7", flip && "lg:order-2 lg:col-span-5")}>
+        <Image src={image} alt={alt} fill sizes="(min-width: 1024px) 58vw, 100vw" quality={90} className={imageClass} />
+      </div>
+      <div className={cn("flex flex-col justify-between gap-8 lg:col-span-5", flip && "lg:order-1 lg:col-span-7 lg:pr-12")}>
+        <div>
+          <p className="font-mono text-xs uppercase tracking-widest text-muted group-hover:text-white/70">
+            {String(i + 1).padStart(2, "0")}
+          </p>
+          <h2 className="mt-4 text-4xl font-semibold tracking-tighter sm:text-5xl">{title}</h2>
+          <p className="mt-4 max-w-md text-muted group-hover:text-white/80">{text}</p>
+          {extra && <p className="mt-3 max-w-md text-sm text-muted group-hover:text-white/80">{extra}</p>}
+        </div>
+        {href ? (
+          <span className="inline-flex items-center gap-1 text-sm font-medium underline-offset-4 group-hover:underline">
+            Explore service
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </span>
+        ) : (
+          <ButtonLink href="/contact-us" variant="secondary" className="self-start group-hover:border-white group-hover:text-white">
+            Discuss your project
+          </ButtonLink>
+        )}
+      </div>
+    </>
+  );
+  const cls =
+    "group grid gap-8 border-b border-line py-10 transition-colors hover:bg-brand-purple hover:text-white lg:grid-cols-12 lg:gap-12 lg:px-6";
+  return href ? (
+    <Link href={href} className={cls}>
+      {body}
+    </Link>
+  ) : (
+    <div id={id} className={cn(cls, "scroll-mt-24")}>
+      {body}
+    </div>
+  );
+}
+
 export default function ServicesPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Our Capabilities"
+      <PageIntro
+        crumbs={[{ label: "Home", href: "/" }, { label: "Services" }]}
         title={
           <>
-            Everything you need to{" "}
-            <span className="text-accent-gradient">build and scale</span>
+            Everything you need
+            <br />
+            <span className="text-accent">to build and scale.</span>
           </>
         }
         description="We are a full-cycle product development company that combines creative thinking with technical expertise to create user-centric products that solve real problems and drive business growth."
-        crumbs={[{ label: "Home", href: "/" }, { label: "Services" }]}
-        actions={
-          <>
-            <ButtonLink href="/contact-us" size="lg">
-              Book a free call <ArrowRight className="h-4 w-4" />
-            </ButtonLink>
-            <ButtonLink href="/our-work" variant="secondary" size="lg">
-              See our work
-            </ButtonLink>
-          </>
-        }
-      />
+      >
+        <ButtonLink href="/contact-us" size="lg">
+          Book a free call <ArrowRight className="h-4 w-4" />
+        </ButtonLink>
+        <ButtonLink href="/our-work" variant="secondary" size="lg">
+          See our work
+        </ButtonLink>
+      </PageIntro>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
-        <ul className="grid gap-6 md:grid-cols-3">
-          {services.map((s) => (
-            <li key={s.slug}>
-              <Link
-                href={s.href}
-                className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-glow"
-              >
-                <Card className="flex h-full flex-col overflow-hidden">
-                  <div className="p-4 pb-0 transition-transform duration-500 group-hover:scale-[1.02]">
-                    {cardVisuals[s.slug]}
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <h2 className="text-xl font-semibold text-foreground">{s.title}</h2>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
-                      {blurbs[s.slug]}
-                    </p>
-                    <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-accent">
-                      Explore service
-                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                    </span>
-                  </div>
-                </Card>
-              </Link>
-            </li>
+      <section className="border-b border-line px-4 pb-16 pt-6 sm:px-6 lg:px-10">
+        <div className="border-t border-line">
+          {services.map((s, i) => (
+            <Row
+              key={s.slug}
+              i={i}
+              title={s.title}
+              text={blurbs[s.slug]}
+              image={s.hero.image}
+              imageClass="object-cover"
+              alt={s.hero.alt}
+              href={s.href}
+            />
           ))}
-        </ul>
-      </section>
-
-      {/* Capabilities without a dedicated page; targets for #custom-software / #ai */}
-      <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 sm:pb-20 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-2">
-          {otherCapabilities.map(({ id, label, description, icon: Icon }) => (
-            <Card
-              key={id}
-              id={id}
-              hover={false}
-              className="flex scroll-mt-24 flex-col p-6 sm:p-8"
-            >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-violet/10 text-accent ring-1 ring-line">
-                <Icon className="h-6 w-6" />
-              </span>
-              <h2 className="mt-5 text-2xl font-bold text-foreground">{label}</h2>
-              <p className="mt-3 text-muted">{description}</p>
-              {id === "ai" && (
-                <>
-                  <p className="mt-3 text-muted">
-                    We embed intelligent AI into your web and mobile systems to
-                    automate workflows, personalize user experiences, and turn
-                    data into real business insights.
-                  </p>
-                  <div className="mt-auto pt-6">
-                    <AiVisual />
-                  </div>
-                </>
-              )}
-              {id === "custom-software" && (
-                <>
-                  <p className="mt-3 text-muted">
-                    One intelligent ecosystem connecting your web, mobile, and AI
-                    into a single powerful business solution.
-                  </p>
-                  <div className="mt-auto pt-6">
-                    <CustomSoftwareVisual />
-                  </div>
-                </>
-              )}
-              <ButtonLink href="/contact-us" variant="secondary" className="mt-6 self-start">
-                Discuss your project
-              </ButtonLink>
-            </Card>
+          {/* Targets for #custom-software and #ai */}
+          {otherCapabilities.map((o, n) => (
+            <Row
+              key={o.id}
+              id={o.id}
+              i={services.length + n}
+              title={o.label}
+              text={o.description}
+              extra={extraDetail[o.id]}
+              image={extraImages[o.id].src}
+              imageClass={extraImages[o.id].fit}
+              alt={extraImages[o.id].alt}
+            />
           ))}
         </div>
       </section>
 
-      <TechStack />
-      <ClientLogos />
-      <ProcessSteps />
-      <CtaBanner />
+      <NhTech index="02" />
+      <NhClientStrip />
+      <ProcessSteps index="03" />
+      <NhCta eyebrow="04 / Start" />
     </>
   );
 }

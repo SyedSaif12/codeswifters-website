@@ -209,3 +209,100 @@ export function FooterTwoTone() {
     </footer>
   );
 }
+
+/** 5. New Design: matches the new header and pages. Canvas background, hairlines, mono labels. */
+export function FooterNewDesign() {
+  const company = [...mainLinks];
+  const col = "font-mono text-xs uppercase tracking-widest text-muted";
+  const link =
+    "block border-b border-line py-2.5 text-sm text-foreground transition-colors hover:bg-brand-purple hover:px-3 hover:text-white";
+  return (
+    <footer className="overflow-hidden border-t border-line bg-background text-foreground">
+      <div className="px-4 sm:px-6 lg:px-10">
+        <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10">
+          <div className="sm:col-span-2 lg:col-span-5">
+            <Link href="/" aria-label="CodeSwifters home" className="inline-block">
+              <Logo />
+            </Link>
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted">
+              Custom software, web platforms, mobile apps and AI features, built
+              by 25+ senior engineers in Milton, CA and Karachi, PK.
+            </p>
+            <a
+              href={`mailto:${site.email}`}
+              className="mt-8 block break-words text-3xl font-semibold tracking-tighter hover:text-accent sm:text-4xl"
+            >
+              {site.email}
+            </a>
+            <a href={site.phoneHref} className="mt-2 block text-sm text-muted hover:text-foreground">
+              {site.phone}
+            </a>
+          </div>
+
+          <div className="lg:col-span-3 lg:col-start-7">
+            <h3 className={col}>Services</h3>
+            <ul className="mt-4 border-t border-line">
+              {serviceLinks.map((s) => (
+                <li key={s.href}>
+                  <Link href={s.href} className={link}>
+                    {s.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/services" className={link}>
+                  All services
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="lg:col-span-3">
+            <h3 className={col}>Company</h3>
+            <ul className="mt-4 border-t border-line">
+              {company.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className={link}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <h3 className={`${col} mt-8`}>Offices</h3>
+            <ul className="mt-4 space-y-3 border-t border-line pt-3 text-sm text-muted">
+              {site.offices.map((o) => (
+                <li key={o.country}>
+                  <span className="block font-medium text-foreground">
+                    {o.country === "Canada" ? "Milton, CA" : "Karachi, PK"}
+                  </span>
+                  {o.address}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex flex-col justify-between gap-4 border-t border-line py-6 font-mono text-xs text-muted sm:flex-row sm:items-center">
+          <p>© CodeSwifters. All rights reserved.</p>
+          <ul className="flex gap-6">
+            {site.socials.map((s) => (
+              <li key={s.label}>
+                <a href={s.href} className="underline-offset-4 hover:text-foreground hover:underline">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Edge-to-edge wordmark in the hairline tone, cropped by the page edge */}
+      <p
+        aria-hidden
+        className="select-none whitespace-nowrap text-center text-[14.5vw] font-semibold leading-[0.78] tracking-tighter text-line"
+      >
+        CodeSwifters
+      </p>
+    </footer>
+  );
+}

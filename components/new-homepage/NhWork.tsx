@@ -32,12 +32,20 @@ const picks = [
 ] as const;
 
 /** Editorial alternating rows. Spans flip 7/5 and 5/7; the whole row is the link. */
-export function NhWork() {
+export function NhWork({
+  index = "02",
+  eyebrow = "Selected work",
+  heading = "Real products, in real users’ hands.",
+}: {
+  index?: string;
+  eyebrow?: string;
+  heading?: string;
+}) {
   return (
     <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
-      <Eyebrow index="02">Selected work</Eyebrow>
+      <Eyebrow index={index}>{eyebrow}</Eyebrow>
       <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-6xl">
-        Real products, in real users&rsquo; hands.
+        {heading}
       </h2>
 
       <div className="mt-14 border-t border-line">

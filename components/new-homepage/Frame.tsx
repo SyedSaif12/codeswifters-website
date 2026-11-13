@@ -27,6 +27,7 @@ export function Frame({
   sizes,
   priority,
   position = "object-top",
+  fit = "cover",
   className,
 }: {
   label: string;
@@ -36,15 +37,16 @@ export function Frame({
   sizes: string;
   priority?: boolean;
   position?: string;
+  fit?: "cover" | "contain";
   className?: string;
 }) {
   return (
-    <figure className={cn("overflow-hidden border border-line bg-card", className)}>
+    <figure className={cn("min-w-0 overflow-hidden border border-line bg-card", className)}>
       <figcaption className="flex h-8 items-center gap-2 border-b border-line px-3">
         <span className="h-2 w-2 bg-line" />
         <span className="h-2 w-2 bg-line" />
         <span className="h-2 w-2 bg-line" />
-        <span className="ml-2 truncate font-mono text-[11px] text-muted">
+        <span className="ml-2 min-w-0 truncate font-mono text-[11px] text-muted">
           {label}
         </span>
       </figcaption>
@@ -56,7 +58,7 @@ export function Frame({
           sizes={sizes}
           quality={90}
           priority={priority}
-          className={cn("object-cover", position)}
+          className={cn(fit === "cover" ? "object-cover" : "object-contain p-2", position)}
         />
       </div>
     </figure>

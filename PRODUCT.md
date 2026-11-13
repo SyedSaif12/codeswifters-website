@@ -14,7 +14,7 @@ web
 
 ## Product Purpose
 
-CodeSwifters is a software house with offices in Milton, Ontario, Canada and Karachi, Pakistan. This site presents its services and past work and converts visitors into strategy calls and project enquiries. Success is a qualified enquiry through `/contact-us` or by email.
+CodeSwifters is a software house with offices in Milton, CA, Canada and Karachi, Pakistan. This site presents its services and past work and converts visitors into strategy calls and project enquiries. Success is a qualified enquiry through `/contact-us` or by email.
 
 ## Positioning
 
@@ -25,7 +25,7 @@ Open: the claim a neighbouring agency could not copy beyond that. Candidates see
 ## Operating Context
 
 - Services: web development, web applications, mobile apps (iOS and Android, Flutter), custom software and workflow automation, AI-powered features.
-- Contact points: `info@codeswifters.com`, +1 (437) 365-5023, offices in Milton, ON and Karachi.
+- Contact points: `info@codeswifters.com`, +1 (437) 365-5023, offices in Milton, CA and Karachi.
 - Visitors reach the site mainly on desktop and mobile web. The site is English only.
 
 ## Capabilities and Constraints

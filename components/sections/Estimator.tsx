@@ -1,11 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, CalendarClock, Check, Wallet } from "lucide-react";
-import { Card } from "@/components/ui/Card";
+import { ArrowRight, CalendarClock, Wallet } from "lucide-react";
+import { Eyebrow } from "@/components/new-homepage/Frame";
 import { ButtonLink } from "@/components/ui/Button";
-import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -52,20 +50,20 @@ function OptionGroup<T extends Option>({
 }) {
   return (
     <fieldset>
-      <legend className="mb-3 text-sm font-semibold text-foreground">
+      <legend className="mb-3 font-mono text-xs uppercase tracking-widest text-muted">
         {legend}
       </legend>
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid gap-px border border-line bg-line sm:grid-cols-2">
         {options.map((o) => {
           const selected = o.id === value;
           return (
             <label
               key={o.id}
               className={cn(
-                "relative flex cursor-pointer items-start gap-3 rounded-xl border p-3.5 transition-all duration-300 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-brand-glow",
+                "flex cursor-pointer items-start gap-3 p-4 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-glow",
                 selected
-                  ? "border-brand-glow/60 bg-brand-violet/5 shadow-[0_0_24px_-8px] shadow-brand-glow/50"
-                  : "border-line hover:border-brand-glow/60",
+                  ? "bg-brand-purple text-white"
+                  : "bg-background hover:bg-card",
               )}
             >
               <input
@@ -77,20 +75,22 @@ function OptionGroup<T extends Option>({
                 className="sr-only"
               />
               <span
+                aria-hidden
                 className={cn(
-                  "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border",
-                  selected
-                    ? "border-brand-glow bg-brand-glow text-white"
-                    : "border-muted",
+                  "mt-1 h-3 w-3 shrink-0 border",
+                  selected ? "border-white bg-white" : "border-muted",
                 )}
-              >
-                {selected && <Check className="h-3 w-3" strokeWidth={3} />}
-              </span>
+              />
               <span>
-                <span className="block text-sm font-medium text-foreground">
-                  {o.label}
+                <span className="block text-sm font-semibold">{o.label}</span>
+                <span
+                  className={cn(
+                    "block text-xs",
+                    selected ? "text-white/80" : "text-muted",
+                  )}
+                >
+                  {o.hint}
                 </span>
-                <span className="block text-xs text-muted">{o.hint}</span>
               </span>
             </label>
           );
@@ -130,91 +130,60 @@ export function Estimator() {
   return (
     <section
       id="estimator"
-      className="relative scroll-mt-20 border-y border-line/80 bg-card/40"
+      className="scroll-mt-20 border-b border-line px-4 py-24 sm:px-6 lg:px-10"
     >
-      <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="Project Estimator"
-          title={
-            <>
-              Get a ballpark in <GradientText>30 seconds</GradientText>
-            </>
-          }
-          description="Choose your scope and get an instant, no-commitment estimate. Final quotes follow a short discovery call."
-        />
+      <Eyebrow index="02">Project estimator</Eyebrow>
+      <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-6xl">
+        A ballpark in 30 seconds.
+      </h2>
+      <p className="mt-4 max-w-xl text-muted">
+        Choose your scope and get an instant, no-commitment estimate. Final
+        quotes follow a short discovery call.
+      </p>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-          <Card hover={false} className="space-y-8 p-6 sm:p-8">
-            <OptionGroup
-              legend="Platform type"
-              options={platforms}
-              value={platform}
-              onChange={setPlatform}
-            />
-            <OptionGroup
-              legend="Feature depth"
-              options={depths}
-              value={depth}
-              onChange={setDepth}
-            />
-            <OptionGroup
-              legend="Timeline"
-              options={timelines}
-              value={timeline}
-              onChange={setTimeline}
-            />
-          </Card>
+      <div className="mt-14 grid gap-10 lg:grid-cols-12">
+        <div className="space-y-8 lg:col-span-7">
+          <OptionGroup legend="Platform type" options={platforms} value={platform} onChange={setPlatform} />
+          <OptionGroup legend="Feature depth" options={depths} value={depth} onChange={setDepth} />
+          <OptionGroup legend="Timeline" options={timelines} value={timeline} onChange={setTimeline} />
+        </div>
 
-          <Card
-            hover={false}
-            className="relative flex flex-col overflow-hidden p-6 sm:p-8 lg:sticky lg:top-24 lg:self-start"
+        <div className="flex flex-col bg-brand-purple p-6 text-white sm:p-10 lg:sticky lg:top-24 lg:col-span-5 lg:self-start">
+          <p className="font-mono text-xs uppercase tracking-widest text-white/70">
+            Estimated investment
+          </p>
+          <p
+            aria-live="polite"
+            className="mt-3 text-4xl font-semibold leading-none tracking-tighter sm:text-5xl"
           >
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-brand-violet/20 blur-3xl"
-            />
-            <p className="relative text-sm font-medium text-muted">
-              Estimated investment
-            </p>
-            <motion.p
-              key={`${estimate.low}-${estimate.high}`}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25 }}
-              aria-live="polite"
-              className="relative mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl"
-            >
-              <GradientText>
-                {fmt(estimate.low)} – {fmt(estimate.high)}
-              </GradientText>
-            </motion.p>
+            {fmt(estimate.low)} – {fmt(estimate.high)}
+          </p>
 
-            <div className="relative mt-6 space-y-3 border-t border-line pt-6 text-sm">
-              <div className="flex items-center gap-3 text-foreground/80">
-                <CalendarClock className="h-4 w-4 text-accent" />
-                <span>
-                  {estimate.weeksLow}–{estimate.weeksHigh} weeks delivery
-                </span>
-              </div>
-              <div className="flex items-center gap-3 text-foreground/80">
-                <Wallet className="h-4 w-4 text-accent" />
-                <span>
-                  {estimate.p.label} · {estimate.d.label} · {estimate.t.label}
-                </span>
-              </div>
+          <div className="mt-8 space-y-3 border-t border-white/30 pt-6 text-sm">
+            <div className="flex items-center gap-3">
+              <CalendarClock className="h-4 w-4" />
+              <span>
+                {estimate.weeksLow}–{estimate.weeksHigh} weeks delivery
+              </span>
             </div>
+            <div className="flex items-center gap-3">
+              <Wallet className="h-4 w-4" />
+              <span>
+                {estimate.p.label} · {estimate.d.label} · {estimate.t.label}
+              </span>
+            </div>
+          </div>
 
-            <ButtonLink
-              href={`mailto:${site.email}?subject=${subject}&body=${body}`}
-              size="lg"
-              className="relative mt-8 w-full"
-            >
-              Send inquiry <ArrowRight className="h-4 w-4" />
-            </ButtonLink>
-            <p className="relative mt-3 text-center text-xs text-muted">
-              Indicative only — not a binding quote.
-            </p>
-          </Card>
+          <ButtonLink
+            href={`mailto:${site.email}?subject=${subject}&body=${body}`}
+            size="lg"
+            className="mt-8 w-full bg-white text-brand-midnight hover:bg-brand-midnight hover:text-white"
+          >
+            Send inquiry <ArrowRight className="h-4 w-4" />
+          </ButtonLink>
+          <p className="mt-3 text-xs text-white/70">
+            Indicative only. Not a binding quote.
+          </p>
         </div>
       </div>
     </section>

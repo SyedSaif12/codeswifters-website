@@ -1,10 +1,11 @@
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { site } from "@/lib/site";
 
+/** Full-bleed solid purple block. One button, one text link, left-aligned. */
 export function CtaBanner({
-  title = "Got a Project in Mind?",
-  description = "Let's discuss how we can turn your vision into a robust, scalable, and smart digital solution. We're just a message away.",
+  title = "Tell us what you are building.",
+  description = "Send a brief, a sketch or a half-formed idea. A senior engineer replies with questions, a rough scope and a realistic timeline.",
   label = "Book a free strategy call",
 }: {
   title?: string;
@@ -12,23 +13,30 @@ export function CtaBanner({
   label?: string;
 }) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <div className="relative overflow-hidden rounded-3xl border border-line bg-card/70 px-6 py-14 text-center backdrop-blur-xl sm:px-12">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--glow),transparent_70%)]"
-        />
-        <h2 className="relative mx-auto max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {title}
-        </h2>
-        <p className="relative mx-auto mt-4 max-w-xl text-muted">{description}</p>
-        <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <ButtonLink href="/contact-us" size="lg">
+    <section className="bg-brand-purple px-4 pb-14 pt-32 text-white sm:px-6 sm:pt-44 lg:px-10">
+      <h2 className="max-w-6xl text-5xl font-semibold leading-[0.9] tracking-tighter sm:text-7xl lg:text-8xl 2xl:text-9xl">
+        {title}
+      </h2>
+
+      <div className="mt-16 grid gap-10 border-t border-white/30 pt-10 lg:mt-24 lg:grid-cols-12 lg:gap-10">
+        <p className="max-w-xl text-lg leading-relaxed text-white/90 sm:text-xl lg:col-span-6">
+          {description}
+        </p>
+        <div className="flex flex-col items-start gap-6 lg:col-span-5 lg:col-start-8">
+          <ButtonLink
+            href="/contact-us"
+            variant="light"
+            size="lg"
+            className="bg-white text-brand-midnight hover:bg-brand-midnight hover:text-white"
+          >
             {label} <ArrowRight className="h-4 w-4" />
           </ButtonLink>
-          <ButtonLink href={`mailto:${site.email}`} variant="secondary" size="lg">
-            <Mail className="h-4 w-4" /> {site.email}
-          </ButtonLink>
+          <a
+            href={`mailto:${site.email}`}
+            className="text-2xl font-medium tracking-tight underline decoration-2 underline-offset-8 hover:decoration-white/50"
+          >
+            {site.email}
+          </a>
         </div>
       </div>
     </section>

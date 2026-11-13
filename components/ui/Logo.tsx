@@ -11,8 +11,28 @@ const HEIGHT = 40;
  * so the right one shows instantly with no theme-hydration flash.
  * - logo.png      → navy wordmark, for Light mode
  * - logo-dark.png → white wordmark, for Dark mode
+ *
+ * `onDark` always renders the white wordmark, for use on solid midnight/purple
+ * blocks (header, footer) that stay dark in both themes.
  */
-export function Logo({ className }: { className?: string }) {
+export function Logo({
+  className,
+  onDark = false,
+}: {
+  className?: string;
+  onDark?: boolean;
+}) {
+  if (onDark) {
+    return (
+      <Image
+        src="/assets/brand/logo-dark.png"
+        alt="CodeSwifters"
+        width={WIDTH}
+        height={HEIGHT}
+        className={cn("h-10 w-auto", className)}
+      />
+    );
+  }
   return (
     <>
       <Image

@@ -1,146 +1,57 @@
-"use client";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { Reveal } from "@/components/ui/Reveal";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Play, Sparkles } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
-import { ButtonLink } from "@/components/ui/Button";
-import { GradientText } from "@/components/ui/SectionHeading";
-
-const metrics = [
-  { value: "350+", label: "Specialized experts" },
-  { value: "30+", label: "Countries served" },
-  { value: "4.9/5", label: "Client rating" },
+const entryLinks = [
+  { href: "/contact-us", label: "Book a free strategy call" },
+  { href: "/our-work", label: "See what we have shipped" },
 ];
 
-const terminalLines: { text: string; tone: string }[] = [
-  { text: "$ pnpm create codeswifters-app", tone: "text-foreground/80" },
-  { text: "✔ Scaffolding Next.js + TypeScript", tone: "text-accent" },
-  { text: "✔ Provisioning AWS infrastructure", tone: "text-accent" },
-  { text: "✔ Wiring CI/CD + preview deploys", tone: "text-accent" },
-  { text: "$ git push origin main", tone: "text-foreground/80" },
-  { text: "▲ Deploying to production…", tone: "text-accent" },
-  { text: "✔ Live in 47s — p95 latency 82ms", tone: "text-accent" },
-];
-
+/**
+ * Editorial hero: edge-to-edge headline on a solid midnight block, with an
+ * uneven 7/5 split underneath. No glow, no mockup, no centred stack.
+ */
 export function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,var(--glow),transparent),radial-gradient(ellipse_50%_40%_at_90%_30%,var(--glow),transparent)]"
-      />
-      <div className="mx-auto grid max-w-7xl items-center gap-14 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-32">
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Badge tone="violet" className="px-3 py-1.5 text-sm">
-              <Sparkles className="h-3.5 w-3.5 text-accent" />
-              Now booking Q4 engagements
-            </Badge>
-          </motion.div>
+    <section id="top" className="bg-brand-midnight text-white">
+      <div className="px-4 pb-12 pt-20 sm:px-6 sm:pt-28 lg:px-10 lg:pt-36">
+        <p className="text-xs font-medium uppercase tracking-widest text-white/70 sm:text-sm">
+          Software house &nbsp;/&nbsp; Milton, ON &nbsp;/&nbsp; Karachi, PK
+        </p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-6xl lg:text-7xl"
-          >
-            We Architect &amp; Scale{" "}
-            <GradientText>Next-Gen Digital Products</GradientText>
-          </motion.h1>
+        <Reveal delay={0.05}>
+          <h1 className="mt-10 text-[2.75rem] font-semibold leading-[0.9] tracking-tighter sm:text-7xl lg:mt-14 lg:text-8xl 2xl:text-9xl">
+            Bespoke software,
+            <br />
+            <span className="text-white/45">engineered to ship.</span>
+          </h1>
+        </Reveal>
 
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 max-w-xl text-lg text-muted"
-          >
-            From zero-to-one MVPs to platforms serving millions, our senior
-            engineers and designers turn ambitious ideas into fast, reliable
-            and beautiful software.
-          </motion.p>
+        <div className="mt-16 grid gap-12 border-t border-white/25 pt-10 lg:mt-24 lg:grid-cols-12 lg:gap-10">
+          <Reveal delay={0.2} className="lg:col-span-7">
+            <p className="max-w-2xl text-xl leading-snug text-white sm:text-2xl">
+              A senior team in Milton, Ontario and Karachi that designs and
+              builds custom software, web platforms, iOS and Android apps and AI
+              features, from the first sketch to the production release.
+            </p>
+          </Reveal>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-9 flex flex-col gap-3 sm:flex-row"
-          >
-            <ButtonLink href="/contact-us" size="lg">
-              Book a free call <ArrowRight className="h-4 w-4" />
-            </ButtonLink>
-            <ButtonLink href="/our-work" variant="secondary" size="lg">
-              <Play className="h-4 w-4" /> View our work
-            </ButtonLink>
-          </motion.div>
-
-          <motion.dl
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-8"
-          >
-            {metrics.map((m) => (
-              <div key={m.label} className="flex flex-col-reverse">
-                <dt className="mt-1 text-xs text-muted sm:text-sm">
-                  {m.label}
-                </dt>
-                <dd className="text-2xl font-bold text-foreground sm:text-3xl">
-                  {m.value}
-                </dd>
-              </div>
-            ))}
-          </motion.dl>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 30 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="relative"
-        >
-          <div
-            aria-hidden
-            className="absolute -inset-6 -z-10 rounded-[2rem] bg-accent-gradient-br opacity-40 blur-3xl"
-          />
-          <div className="overflow-hidden rounded-2xl border border-line bg-card/80 shadow-2xl shadow-brand-violet/10 backdrop-blur-xl">
-            <div className="flex items-center gap-2 border-b border-line px-4 py-3">
-              <span className="h-3 w-3 rounded-full bg-red-400/80" />
-              <span className="h-3 w-3 rounded-full bg-amber-400/80" />
-              <span className="h-3 w-3 rounded-full bg-brand-violet/80" />
-              <span className="ml-3 font-mono text-xs text-muted">
-                ~/codeswifters/launch.sh
-              </span>
-            </div>
-            <div className="min-h-72 space-y-2 p-5 font-mono text-[13px] leading-relaxed sm:text-sm">
-              {terminalLines.map((line, i) => (
-                <motion.p
-                  key={line.text}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.8 + i * 0.45, duration: 0.3 }}
-                  className={line.tone}
-                >
-                  {line.text}
-                </motion.p>
+          <Reveal delay={0.32} className="lg:col-span-5">
+            <ul className="divide-y divide-white/25 border-y border-white/25">
+              {entryLinks.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="group flex items-center justify-between gap-4 py-5 text-xl font-medium tracking-tight hover:bg-brand-purple sm:text-2xl lg:px-3"
+                  >
+                    {l.label}
+                    <ArrowUpRight className="h-6 w-6 shrink-0 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </Link>
+                </li>
               ))}
-              <motion.span
-                aria-hidden
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 0] }}
-                transition={{
-                  delay: 0.8 + terminalLines.length * 0.45,
-                  duration: 1,
-                  repeat: Infinity,
-                }}
-                className="inline-block h-4 w-2 translate-y-0.5 bg-brand-glow"
-              />
-            </div>
-          </div>
-        </motion.div>
+            </ul>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

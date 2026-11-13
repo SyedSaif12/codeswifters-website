@@ -68,26 +68,23 @@ function LogoRow({ hidden = false }: { hidden?: boolean }) {
   );
 }
 
+/** Condensed, flat strip: a short label on the left, a crisp-edged marquee on the right. */
 export function ClientLogos() {
-  const mask =
-    "linear-gradient(to right, transparent, black 10%, black 90%, transparent)";
-
   return (
     <section
       aria-label="Our clients"
-      className="border-y border-line/80 bg-card/30 py-10"
+      className="border-b border-line bg-background py-6"
     >
-      <p className="px-4 text-center text-xs font-medium uppercase tracking-[0.2em] text-muted">
-        Trusted by founders &amp; teams building the future
-      </p>
-      <div
-        className="group relative mt-8 overflow-hidden"
-        style={{ maskImage: mask, WebkitMaskImage: mask }}
-      >
-        {/* Two identical rows; translating by -50% loops seamlessly. */}
-        <div className="flex w-max animate-marquee will-change-transform motion-reduce:[animation-duration:90s] group-hover:[animation-play-state:paused] group-active:[animation-play-state:paused]">
-          <LogoRow />
-          <LogoRow hidden />
+      <div className="grid items-center gap-4 px-4 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-10">
+        <p className="text-xs font-medium uppercase tracking-widest text-muted lg:col-span-2">
+          Shipped for
+        </p>
+        <div className="group min-w-0 overflow-hidden lg:col-span-10">
+          {/* Two identical rows; translating by -50% loops seamlessly. */}
+          <div className="flex w-max animate-marquee will-change-transform motion-reduce:[animation-duration:90s] group-hover:[animation-play-state:paused] group-active:[animation-play-state:paused]">
+            <LogoRow />
+            <LogoRow hidden />
+          </div>
         </div>
       </div>
     </section>

@@ -1,118 +1,96 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight, Boxes, Bot, Globe, LayoutDashboard, Smartphone, type LucideIcon } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
-import { Card } from "@/components/ui/Card";
-import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
-import { cn } from "@/lib/utils";
+import { ArrowUpRight } from "lucide-react";
+import { Reveal } from "@/components/ui/Reveal";
 
 const services: {
-  icon: LucideIcon;
   title: string;
   description: string;
   tags: string[];
   href: string;
-  span: string;
 }[] = [
   {
-    icon: Globe,
-    title: "Web Development",
+    title: "Web development",
     description:
-      "Pixel-perfect websites that are fast, secure, and optimized for conversion, whether it's a landing page or an enterprise platform.",
-    tags: ["Next.js", "React", "SEO-ready"],
+      "Marketing sites and storefronts on Next.js and React, built to load fast and rank, and simple for your team to edit.",
+    tags: ["Next.js", "React", "SEO"],
     href: "/services/web-development",
-    span: "lg:col-span-2",
   },
   {
-    icon: LayoutDashboard,
-    title: "Web Applications",
+    title: "Web applications",
     description:
-      "Robust, scalable and secure web apps, from dashboards and CRMs to customer portals and SaaS products.",
-    tags: ["Dashboards", "APIs", "Cloud-ready"],
+      "Dashboards, CRMs, customer portals and SaaS products, with the APIs and cloud setup that sit behind them.",
+    tags: ["Dashboards", "APIs", "Cloud"],
     href: "/services/web-applications",
-    span: "lg:col-span-2",
   },
   {
-    icon: Smartphone,
-    title: "Mobile App Development",
+    title: "Mobile apps",
     description:
-      "From iOS to Android, we craft intuitive, high-performing apps that bring your ideas to users' fingertips.",
+      "iOS and Android apps in Flutter, from onboarding flows to App Store and Play Store release.",
     tags: ["iOS", "Android", "Flutter"],
     href: "/services/mobile-development",
-    span: "lg:col-span-2",
   },
   {
-    icon: Boxes,
-    title: "Custom Software Solutions",
+    title: "Custom software",
     description:
-      "Tailored software built from the ground up to fit your business goals, streamline workflows, and scale with your growth.",
-    tags: ["Workflow automation", "Integrations"],
+      "Internal tools and workflow automation, wired into the systems your business already runs on.",
+    tags: ["Automation", "Integrations"],
     href: "/services#custom-software",
-    span: "lg:col-span-3",
   },
   {
-    icon: Bot,
-    title: "AI-Powered Solutions",
+    title: "AI features",
     description:
-      "Leverage artificial intelligence to build smarter products, automate workflows, and unlock data-driven insights for your business.",
-    tags: ["Automation", "AI features", "Insights"],
+      "AI inside real products: lead scoring, automated follow-ups, image and document analysis.",
+    tags: ["Automation", "Computer vision", "Insights"],
     href: "/services#ai",
-    span: "lg:col-span-3",
   },
 ];
 
+/**
+ * A single-column index instead of a card grid. Each row is an uneven
+ * 1 / 6 / 4 / 1 split with a raw divider; hover floods the row with solid purple.
+ */
 export function Services() {
   return (
-    <section
-      id="services"
-      className="mx-auto max-w-7xl scroll-mt-20 px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
-    >
-      <SectionHeading
-        eyebrow="What We Offer"
-        title={
-          <>
-            Everything to <GradientText>build, launch &amp; scale</GradientText>
-          </>
-        }
-        description="We are a full-cycle product development company that combines creative thinking with technical expertise to solve real problems and drive business growth."
-      />
-      <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-        {services.map(({ icon: Icon, title, description, tags, href, span }, i) => (
-          <motion.div
-            key={title}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
-            className={cn(span, i === 2 && "sm:col-span-2")}
-          >
-            <Link
-              href={href}
-              className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-glow"
-            >
-              <Card className="flex h-full flex-col p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-violet/10 text-accent ring-1 ring-line">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <ArrowRight className="h-5 w-5 text-muted transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent" />
-                </div>
-                <h3 className="mt-5 text-lg font-semibold text-foreground">{title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
-                  {description}
-                </p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {tags.map((t) => (
-                    <Badge key={t}>{t}</Badge>
-                  ))}
-                </div>
-              </Card>
-            </Link>
-          </motion.div>
-        ))}
+    <section id="services" className="scroll-mt-20 bg-background pb-12 pt-32 sm:pt-40">
+      <div className="grid gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-10">
+        <h2 className="text-5xl font-semibold leading-[0.9] tracking-tighter text-foreground sm:text-7xl lg:col-span-9 lg:text-8xl 2xl:text-9xl">
+          What we build, end to end.
+        </h2>
+        <p className="max-w-sm self-end text-base text-foreground/70 lg:col-span-3">
+          Strategy, design, engineering and release handled by one team, so
+          nothing gets lost between a brief and a launch.
+        </p>
       </div>
+
+      <ol className="mt-20 border-t-2 border-foreground sm:mt-28">
+        {services.map((s, i) => (
+          <Reveal as="li" key={s.title} className="border-b border-foreground/25">
+            <Link
+              href={s.href}
+              className="group grid items-start gap-4 px-4 py-8 hover:bg-brand-purple hover:text-white focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-glow sm:px-6 md:grid-cols-12 md:gap-8 md:py-12 lg:px-10"
+            >
+              <span className="font-mono text-sm text-muted group-hover:text-white/80 md:col-span-1 md:pt-3">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="text-4xl font-semibold leading-none tracking-tighter text-foreground group-hover:text-white sm:text-6xl lg:text-7xl md:col-span-6">
+                {s.title}
+              </h3>
+              <div className="md:col-span-4 md:pt-2">
+                <p className="text-base leading-relaxed text-foreground/75 group-hover:text-white/90">
+                  {s.description}
+                </p>
+                <p className="mt-4 text-xs font-medium uppercase tracking-widest text-muted group-hover:text-white/75">
+                  {s.tags.join(" / ")}
+                </p>
+              </div>
+              <ArrowUpRight
+                aria-hidden
+                className="hidden h-8 w-8 justify-self-end text-muted transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white md:col-span-1 md:block"
+              />
+            </Link>
+          </Reveal>
+        ))}
+      </ol>
     </section>
   );
 }

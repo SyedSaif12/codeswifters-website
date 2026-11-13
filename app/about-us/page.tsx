@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 const stats = [
   { value: "30+", label: "Countries served" },
-  { value: "350+", label: "Specialized experts" },
+  { value: "25+", label: "Senior engineers" },
   { value: "4.9/5", label: "Average client rating" },
 ];
 

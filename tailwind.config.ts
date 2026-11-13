@@ -17,6 +17,9 @@ const config: Config = {
           glow: "#8B5CF6", // Secondary Accent — Glow Violet
           navy: "#1E1B4B", // Brand Dark Navy
           plum: "#6B21A8", // Light-mode gradient start
+          // Solid-block brand colors (flat fills only, never gradients/glows)
+          purple: "#5114b9", // Deep Purple
+          midnight: "#090222", // Midnight Blue
         },
         // Semantic tokens — switch with the theme
         background: "var(--background)",

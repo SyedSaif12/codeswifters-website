@@ -5,13 +5,14 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 type Variant = "primary" | "secondary" | "ghost" | "light";
 type Size = "sm" | "md" | "lg";
 
+// Flat, solid fills only: no gradients, shadows or glows.
 const variants: Record<Variant, string> = {
   primary:
-    "bg-accent-gradient text-white shadow-lg shadow-brand-violet/25 hover:shadow-brand-violet/40 hover:brightness-110",
+    "bg-brand-purple text-white hover:bg-foreground hover:text-background",
   secondary:
-    "border border-line bg-card/70 text-foreground backdrop-blur hover:border-brand-glow/60 hover:bg-line/60",
-  ghost: "text-foreground/80 hover:bg-line/60 hover:text-white",
-  light: "bg-foreground text-background hover:bg-foreground/90",
+    "border border-foreground text-foreground hover:bg-foreground hover:text-background",
+  ghost: "text-foreground/80 hover:bg-line/60 hover:text-foreground",
+  light: "bg-foreground text-background hover:bg-brand-purple hover:text-white",
 };
 
 const sizes: Record<Size, string> = {
@@ -23,7 +24,7 @@ const sizes: Record<Size, string> = {
 type Common = { variant?: Variant; size?: Size; className?: string };
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-glow disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-none font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-glow disabled:pointer-events-none disabled:opacity-50";
 
 export function Button({
   variant = "primary",

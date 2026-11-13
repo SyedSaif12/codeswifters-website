@@ -2,9 +2,9 @@ Rules for building an elite, high-converting software house website.
 
 ## Constraints
 
-- **Design Style:** Modern violet-branded UI with dark mode as the default and a full light mode. Subtle glowing borders, glassy blur backdrops (`backdrop-blur-xl`), and violet accent highlights.
+- **Design Style:** Flat, editorial, violet-branded UI with dark mode as the default and a full light mode. Solid blocks of `brand-midnight` / `brand-purple`, raw dividers, no glows and no blur backdrops (see "Unified Design System & Anti-AI Slop Rules", which wins on any conflict).
 - **Architecture:** Modular Next.js App Router setup. Components live in `components/ui` (primitives), `components/layout` (Navbar, Footer, ThemeProvider) and `components/sections` (page sections).
-- **UI Quality:** Card layouts must have micro-interactions (hover elevation, subtle border transitions).
+- **UI Quality:** Interactions are flat: hover floods a row with solid purple, arrows nudge, underlines change. No hover-elevation glows. Scroll motion (framer-motion `Reveal`, count-ups, progress rules) must honour `prefers-reduced-motion`.
 - **Typography:** High contrast, explicit font hierarchy using Geist sans (Inter is an acceptable fallback).
 
 ## Brand & Design System
@@ -68,17 +68,17 @@ The palette is derived from the logo. **Never hardcode hex values or raw Tailwin
 
 ## Site structure (multi-page App Router)
 
-| Route | File | Notes |
-| ----- | ---- | ----- |
-| `/` | `app/page.tsx` | Hero, ClientLogos, Services overview, FeaturedWork, Testimonials, CTA |
-| `/services` | `app/services/page.tsx` | All capabilities, TechStack, process. Anchors `#custom-software`, `#ai` |
-| `/services/mobile-development` | `app/services/mobile-development/page.tsx` | Driven by `lib/services.ts` through `ServiceDetail` |
-| `/services/web-development` | `app/services/web-development/page.tsx` | same |
-| `/services/web-applications` | `app/services/web-applications/page.tsx` | same |
-| `/our-work` | `app/our-work/page.tsx` | Filterable `WorkGrid` |
-| `/our-work/<slug>` | `app/our-work/<slug>/page.tsx` | One page per project (wedfluencer, biotip, mcs, nexus, luxevault, lynacam, wightguide). Each renders `CaseStudyView` with content from `lib/case-studies/<slug>.ts`. Core stack badges come from `CORE_STACK` in `lib/case-studies/types.ts` |
-| `/about-us` | `app/about-us/page.tsx` | |
-| `/contact-us` | `app/contact-us/page.tsx` | Contact form, Estimator, FAQ |
+| Route                          | File                                       | Notes                                                                                                                                                                                                                                        |
+| ------------------------------ | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                            | `app/page.tsx`                             | Hero, ClientLogos, Services overview, FeaturedWork, Testimonials, CTA                                                                                                                                                                        |
+| `/services`                    | `app/services/page.tsx`                    | All capabilities, TechStack, process. Anchors `#custom-software`, `#ai`                                                                                                                                                                      |
+| `/services/mobile-development` | `app/services/mobile-development/page.tsx` | Driven by `lib/services.ts` through `ServiceDetail`                                                                                                                                                                                          |
+| `/services/web-development`    | `app/services/web-development/page.tsx`    | same                                                                                                                                                                                                                                         |
+| `/services/web-applications`   | `app/services/web-applications/page.tsx`   | same                                                                                                                                                                                                                                         |
+| `/our-work`                    | `app/our-work/page.tsx`                    | Filterable `WorkGrid`                                                                                                                                                                                                                        |
+| `/our-work/<slug>`             | `app/our-work/<slug>/page.tsx`             | One page per project (wedfluencer, biotip, mcs, nexus, luxevault, lynacam, wightguide). Each renders `CaseStudyView` with content from `lib/case-studies/<slug>.ts`. Core stack badges come from `CORE_STACK` in `lib/case-studies/types.ts` |
+| `/about-us`                    | `app/about-us/page.tsx`                    |                                                                                                                                                                                                                                              |
+| `/contact-us`                  | `app/contact-us/page.tsx`                  | Contact form, Estimator, FAQ                                                                                                                                                                                                                 |
 
 - `Navbar` and `Footer` live in `app/layout.tsx` (not in pages). The Navbar has a Services dropdown (hover for mouse, tap/Enter to toggle, Esc/outside click closes) and a mobile accordion.
 - **Content lives in `lib/`**: `site.ts` (contact details, offices, nav), `services.ts`, `projects.ts`, `testimonials.ts`. Adding a project means: an entry in `projects.ts` (card), `lib/case-studies/<slug>.ts` and `app/our-work/<slug>/page.tsx`. There is no generic fallback route.
@@ -97,3 +97,37 @@ The palette is derived from the logo. **Never hardcode hex values or raw Tailwin
 
 - This is Next.js 16. Do not read the clock (`new Date()`) during render of statically prerendered components. See `components/layout/Footer.tsx` for the `useSyncExternalStore` pattern.
 - See `AGENTS.md` for the bundled Next.js docs.
+
+# Unified Design System & Anti-AI Slop Rules
+
+## 1. BRAND COLOR PALETTE & APPLICATION
+
+- PRIMARY BRAND COLORS: `#5114b9` (Deep Purple) and `#130449` (Midnight Blue).
+- SOLID APPLICATION ONLY: Use these colors for solid backgrounds, raw text, or structural elements.
+- NO AI CLICHÉ GLOWS: Absolute ban on radial gradients, blurred background colorful blobs, neon glowing borders, backdrop-blur "glassmorphism", or card hover-elevation glows.
+- CONTRAST RULE: Use clean, flat layouts. Rely on sharp contrast between solid blocks of midnight blue/purple and crisp white/off-white space. Do not blend or blur them together.
+
+## 2. LAYOUT & GEOMETRY (Break the Matrix)
+
+- NO MULTI-COLUMN CARD GRIDS: Do not list agency services, featured work, footer columns, or testimonials in standard, symmetrical 3-column or 4-column card matrices.
+- USE ASYMMETRICAL SECTIONS: Use alternating layouts. For example, a massive text block on the left overlapping an offset image container on the right, or single-column lists.
+- VARIABLE PADDING: Break the identical padding chain. Create dramatic visual pacing with deep padding gaps (e.g., `pt-32 pb-12`) mixed with tightly condensed, high-impact sections.
+- UNEVEN GRID SPANNING: Force elements to span uneven column counts (e.g., item 1 spans 7 columns, item 2 spans 5 columns). Avoid even 2/2/2 or 3/3 split distributions.
+
+## 3. UI ELEMENT & CONTAINER REFUSALS
+
+- NO CARDS-IN-CARDS: Eliminate generic `<Card>`, `<Badge>`, or container borders (`border-neutral-800`). Use clean typographic lines, raw structural horizontal dividers (`hr`), or completely flat, borderless typography layouts.
+- NO TRADITIONAL HERO: The hero section must NOT feature a centered, bold H1, a gray description paragraph, two side-by-side primary/secondary buttons, or a fake terminal/browser window mockup.
+- HERO ALTERNATIVE: Use massive, raw, left-aligned or edge-to-edge magazine-style editorial layout text.
+- NO FLOATING DOCK NAV: Replace the translucent glassmorphic pill navbar with a solid, structural, edge-to-edge header or a minimal, hidden slide-out menu.
+
+## 4. TYPOGRAPHY & REAL COPY
+
+- MASSIVE SCALE: Go drastically larger with headers (use `text-7xl`, `text-8xl`, or `text-9xl`) and tighten their letter-spacing (`tracking-tighter`).
+- BAN FAKE METRICS & PLACEHOLDERS: Eliminate all generic statistics counters, fake hero metrics, and template lines like "99.9% Uptime". Use hyper-specific, premium software agency copy (e.g., "We engineer bespoke cloud architecture and boutique consumer software").
+
+## 5. HOME PAGE COMPOSITION & FACTS
+
+- Home order: Hero, ClientLogos, TrustBand, Services index, HomeProcess, FeaturedWork, Testimonials, CtaBanner (`app/page.tsx`).
+- TrustBand figures must be real: 25+ senior engineers (owner-confirmed) plus counts derived from `lib/projects.ts`, `lib/testimonials.ts` and `lib/site.ts`. Never add "350+ experts", "30+ countries", a star rating or "Now booking Q4" until the owner confirms them (see `PRODUCT.md`).
+- The six process stages live in `lib/process.ts`.

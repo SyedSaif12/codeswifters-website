@@ -1,23 +1,22 @@
 import Image from "next/image";
-import { Quote } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
-import { Card } from "@/components/ui/Card";
-import { GradientText, SectionHeading } from "@/components/ui/SectionHeading";
-import { Stars } from "@/components/ui/Stars";
+import { Reveal } from "@/components/ui/Reveal";
 import { testimonials, type Testimonial } from "@/lib/testimonials";
 
-const average =
-  testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length;
+/** First sentence of a review, used as the oversized pull quote. */
+function firstSentence(text: string) {
+  const match = text.match(/^.*?[.!?](?=\s|$)/);
+  return match ? match[0] : text;
+}
 
-function Avatar({ t, decorative }: { t: Testimonial; decorative: boolean }) {
+function Avatar({ t }: { t: Testimonial }) {
   if (t.photo) {
     return (
       <Image
         src={t.photo}
-        alt={decorative ? "" : `${t.name}, ${t.title} at ${t.company}`}
+        alt={`${t.name}, ${t.title} at ${t.company}`}
         width={48}
         height={48}
-        className="h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-brand-violet/40"
+        className="h-12 w-12 shrink-0 object-cover"
       />
     );
   }
@@ -30,102 +29,70 @@ function Avatar({ t, decorative }: { t: Testimonial; decorative: boolean }) {
   return (
     <span
       aria-hidden
-      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-gradient-br text-sm font-semibold text-white ring-2 ring-brand-violet/40"
+      className="flex h-12 w-12 shrink-0 items-center justify-center bg-brand-purple text-sm font-semibold text-white"
     >
       {initials}
     </span>
   );
 }
 
-function ReviewCard({
-  t,
-  decorative,
-}: {
-  t: Testimonial;
-  decorative: boolean;
-}) {
-  return (
-    <figure className="w-[82vw] max-w-[400px] shrink-0 sm:w-[400px]">
-      <Card className="relative flex h-full flex-col bg-card p-5 sm:p-6">
-        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
-          <Stars rating={t.rating} />
-          <Badge tone="violet">{t.tag}</Badge>
-        </div>
-        <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-foreground/90">
-          “{t.review}”
-        </blockquote>
-        <figcaption className="mt-6 flex items-center gap-3 border-t border-line pt-5">
-          <Avatar t={t} decorative={decorative} />
-          <div className="min-w-0 flex-1">
-            <p className="truncate font-semibold text-foreground">{t.name}</p>
-            <p className="truncate text-xs text-muted">
-              {t.title} · {t.company}
-            </p>
-          </div>
-          <Quote
-            aria-hidden
-            className="h-7 w-7 shrink-0 text-brand-violet/25"
-          />
-        </figcaption>
-      </Card>
-    </figure>
-  );
-}
-
-function ReviewRow({ decorative = false }: { decorative?: boolean }) {
-  return (
-    <ul
-      aria-hidden={decorative || undefined}
-      className="flex shrink-0 items-stretch gap-6 pr-6"
-    >
-      {testimonials.map((t) => (
-        <li key={t.name} className="flex">
-          <ReviewCard t={t} decorative={decorative} />
-        </li>
-      ))}
-    </ul>
-  );
-}
-
+/**
+ * One oversized pull quote, then a flat single-column ledger of reviews split
+ * 4 / 8 with raw dividers. Solid midnight block, no cards, no marquee.
+ */
 export function Testimonials() {
-  const mask =
-    "linear-gradient(to right, transparent, black 6%, black 94%, transparent)";
+  const [lead, ...rest] = testimonials;
+  const ledger = rest.slice(0, 4);
 
   return (
-    <section id="reviews" className="scroll-mt-20 py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="Client Reviews"
-          title={
-            <>
-              Loved by <GradientText>founders worldwide</GradientText>
-            </>
-          }
-          description="Real feedback from the teams we've built products with."
-        />
+    <section
+      id="reviews"
+      className="scroll-mt-20 bg-brand-midnight px-4 pb-16 pt-32 text-white sm:px-6 sm:pt-40 lg:px-10"
+    >
+      <p className="text-xs font-medium uppercase tracking-widest text-white/70 sm:text-sm">
+        In their words
+      </p>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-sm text-muted">
-          <Stars rating={Math.round(average * 2) / 2} />
+      <figure className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-10">
+        <blockquote className="text-3xl font-semibold leading-[1.05] tracking-tighter sm:text-5xl lg:col-span-10 lg:text-6xl 2xl:text-7xl">
+          “{firstSentence(lead.review)}”
+        </blockquote>
+        <figcaption className="flex items-center gap-4 lg:col-span-5 lg:col-start-1">
+          <Avatar t={lead} />
           <span>
-            <strong className="font-semibold text-foreground">
-              {average.toFixed(1)}
-            </strong>{" "}
-            average from {testimonials.length} client reviews
+            <span className="block font-semibold">{lead.name}</span>
+            <span className="block text-sm text-white/75">
+              {lead.title}, {lead.company}
+            </span>
           </span>
-        </div>
-      </div>
+        </figcaption>
+      </figure>
 
-      {/* Full-bleed slider. Always sliding; pauses while hovered or focused.
-          Vertical padding leaves room for the card hover-lift and glow. */}
-      <div
-        className="group mt-10 overflow-hidden py-6 sm:mt-12"
-        style={{ maskImage: mask, WebkitMaskImage: mask }}
-      >
-        <div className="flex w-max animate-marquee-reviews will-change-transform motion-reduce:[animation-duration:300s] group-hover:[animation-play-state:paused] group-active:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]">
-          <ReviewRow />
-          <ReviewRow decorative />
-        </div>
-      </div>
+      <ul className="mt-24 border-t-2 border-white sm:mt-32">
+        {ledger.map((t) => (
+          <Reveal
+            as="li"
+            key={t.name}
+            className="grid gap-6 border-b border-white/25 py-10 md:grid-cols-12 md:gap-10"
+          >
+            <div className="flex items-start gap-4 md:col-span-4">
+              <Avatar t={t} />
+              <div className="min-w-0">
+                <p className="font-semibold">{t.name}</p>
+                <p className="text-sm text-white/75">
+                  {t.title}, {t.company}
+                </p>
+                <p className="mt-2 text-xs font-medium uppercase tracking-widest text-white/60">
+                  {t.tag}
+                </p>
+              </div>
+            </div>
+            <blockquote className="text-lg leading-relaxed text-white/90 md:col-span-8">
+              “{t.review}”
+            </blockquote>
+          </Reveal>
+        ))}
+      </ul>
     </section>
   );
 }

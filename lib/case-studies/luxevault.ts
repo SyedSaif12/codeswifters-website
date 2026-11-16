@@ -136,6 +136,7 @@ export const luxevault: CaseStudy = {
       image: `${A}/figma-admin-dashboard.webp`,
       alt: "Luxe Vault admin dashboard with auctions, views and sales charts",
       kind: "wide",
+      ratio: 780 / 580,
     },
   ],
   highlights: [

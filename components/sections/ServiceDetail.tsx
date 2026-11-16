@@ -55,7 +55,7 @@ export function ServiceDetail({ service }: { service: ServicePage }) {
         return (
           <section
             key={s.title}
-            className="border-b border-line px-4 py-24 sm:px-6 lg:px-10"
+            className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10"
           >
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
               <div className={cn("lg:col-span-6", flip && "lg:order-2 lg:col-span-5 lg:col-start-8")}>
@@ -92,7 +92,7 @@ export function ServiceDetail({ service }: { service: ServicePage }) {
       })}
 
       {pillars && (
-        <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+        <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
           <Eyebrow index="Why">Why choose us</Eyebrow>
           <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-6xl">
             Built to be flexible, secure and scalable.
@@ -119,7 +119,7 @@ export function ServiceDetail({ service }: { service: ServicePage }) {
       )}
 
       {gallery && (
-        <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+        <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
           <Eyebrow index="Showcase">Selected screens</Eyebrow>
           <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-6xl">
             {gallery.title}

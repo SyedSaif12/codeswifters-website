@@ -59,7 +59,7 @@ function LogoRow({ hidden = false }: { hidden?: boolean }) {
               alt={hidden ? "" : c.name}
               fill
               sizes="128px"
-              className="object-contain opacity-60 grayscale transition-all duration-300 hover:scale-105 hover:opacity-100 hover:grayscale-0 dark:opacity-70"
+              className="object-contain transition-transform duration-300 hover:scale-105 motion-reduce:transition-none"
             />
           </div>
         </li>

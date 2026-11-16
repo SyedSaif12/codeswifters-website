@@ -7,7 +7,13 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Eyebrow } from "./Frame";
 
-const phones = [
+const phones: {
+  id: string;
+  label: string;
+  src: string;
+  note: string;
+  bezel?: boolean;
+}[] = [
   {
     id: "luxe",
     label: "Luxe Vault",
@@ -21,10 +27,12 @@ const phones = [
     note: "Destination discovery with a map-led flow.",
   },
   {
-    id: "bio",
-    label: "BioTip",
-    src: "/assets/case-studies/biotip/screen-home.png",
-    note: "A health-focused app, from onboarding to release.",
+    id: "lyna",
+    label: "LYNA Cam",
+    // Cropped from the case-study hero; the art carries its own device bezel.
+    src: "/assets/case-studies/lynacam/screen-mycycle.png",
+    note: "Cycle tracking and meal scanning in one health app.",
+    bezel: true,
   },
 ];
 
@@ -63,45 +71,42 @@ function Tile({
   );
 }
 
+/** Three real app screens on one flat midnight stage: centre phone raised, sides dropped, all cropped at the bottom edge. */
 function MobileVisual() {
-  const [i, setI] = useState(0);
-  const p = phones[i];
+  const order = [phones[1], phones[0], phones[2]];
   return (
-    <div className="grid h-full sm:grid-cols-[auto_1fr]">
-      <div className="flex border-b border-line sm:flex-col sm:border-b-0 sm:border-r">
-        {phones.map((x, n) => (
-          <button
-            key={x.id}
-            type="button"
-            onClick={() => setI(n)}
-            aria-pressed={i === n}
+    <div className="flex h-full flex-col">
+      <div className="flex h-[19rem] flex-1 items-start justify-center gap-3 overflow-hidden bg-brand-midnight px-4 pt-8 sm:h-[24rem] sm:gap-6 sm:px-8">
+        {order.map((p, n) => (
+          <div
+            key={p.id}
             className={cn(
-              "px-4 py-3 text-left font-mono text-xs transition-colors",
-              i === n
-                ? "bg-brand-purple text-white"
-                : "text-muted hover:bg-line/60 hover:text-foreground",
+              "relative w-[30%] max-w-[10.5rem] shrink-0",
+              p.bezel
+                ? "aspect-[377/759]"
+                : "aspect-[1290/2796] overflow-hidden rounded-[1.4rem] border-[4px] border-black bg-black",
+              n !== 1 && "mt-10",
             )}
           >
-            {x.label}
-          </button>
+            <Image
+              src={p.src}
+              alt={`${p.label} app screen`}
+              fill
+              sizes="(min-width: 640px) 170px, 30vw"
+              quality={90}
+              className={p.bezel ? "object-contain" : "object-cover object-top"}
+            />
+          </div>
         ))}
       </div>
-      <div className="flex items-end justify-center gap-6 overflow-hidden px-6 pt-6">
-        <p className="mb-6 hidden max-w-[11rem] self-center text-sm text-muted lg:block">
-          {p.note}
-        </p>
-        <div className="relative h-[280px] w-[150px] shrink-0 border border-b-0 border-line bg-white sm:h-[340px] sm:w-[180px]">
-          <Image
-            key={p.src}
-            src={p.src}
-            alt={`${p.label} app screen`}
-            fill
-            sizes="180px"
-            quality={90}
-            className="object-cover object-top"
-          />
-        </div>
-      </div>
+      <ul className="grid grid-cols-3 divide-x divide-line border-t border-line">
+        {order.map((p) => (
+          <li key={p.id} className="p-3 sm:p-4">
+            <p className="font-mono text-xs text-foreground">{p.label}</p>
+            <p className="mt-1 hidden text-xs leading-snug text-muted sm:block">{p.note}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -176,13 +181,13 @@ function CropVisual({ src, alt }: { src: string; alt: string }) {
 /** Asymmetric 7/5 · 5/7 capability grid; every tile carries a real product visual. */
 export function NhBento() {
   return (
-    <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+    <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
       <Eyebrow index="01">Capabilities</Eyebrow>
       <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-6xl">
         Four ways we ship. One team behind each.
       </h2>
 
-      <div className="mt-14 grid gap-4 lg:grid-cols-12">
+      <div className="mt-8 grid gap-4 lg:grid-cols-12">
         <Tile
           className="lg:col-span-7"
           index="01"
@@ -191,7 +196,7 @@ export function NhBento() {
           visual={<MobileVisual />}
         >
           iOS and Android apps built for the store review and for the second
-          year. Pick a product to preview.
+          year.
         </Tile>
 
         <Tile

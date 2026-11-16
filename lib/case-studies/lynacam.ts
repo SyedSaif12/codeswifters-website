@@ -116,6 +116,7 @@ export const lynacam: CaseStudy = {
       image: `${A}/hero.png`,
       alt: "LYNA Cam splash, MyCycle dashboard, scanner and meal log screens",
       kind: "wide",
+      ratio: 1691 / 763,
     },
   ],
   highlights: [

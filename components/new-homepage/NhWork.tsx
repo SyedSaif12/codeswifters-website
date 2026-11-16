@@ -42,13 +42,13 @@ export function NhWork({
   heading?: string;
 }) {
   return (
-    <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+    <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
       <Eyebrow index={index}>{eyebrow}</Eyebrow>
       <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-6xl">
         {heading}
       </h2>
 
-      <div className="mt-14 border-t border-line">
+      <div className="mt-8 border-t border-line">
         {picks.map((p, i) => {
           const project = getProject(p.slug);
           if (!project) return null;

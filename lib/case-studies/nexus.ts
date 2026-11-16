@@ -122,6 +122,7 @@ export const nexus: CaseStudy = {
       image: `${A}/dashboard.png`,
       alt: "NEXUS dashboard with KPI cards, student chart, attendance bars, calendar and invoice trends",
       kind: "wide",
+      ratio: 2160 / 1518,
     },
     {
       icon: ShieldCheck,
@@ -129,7 +130,8 @@ export const nexus: CaseStudy = {
       text: "A clean, simple entry point with strong authentication to protect school and student data.",
       image: `${A}/figma-login.webp`,
       alt: "NEXUS login screen shown on a laptop",
-      kind: "phone",
+      kind: "wide",
+      ratio: 680 / 840,
     },
   ],
   highlights: [

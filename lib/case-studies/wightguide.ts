@@ -92,6 +92,7 @@ export const wightguide: CaseStudy = {
       image: `${A}/hero.png`,
       alt: "Wight Guide destination detail and favourites screens",
       kind: "wide",
+      ratio: 1920 / 1195,
     },
   ],
   highlights: [

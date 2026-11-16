@@ -51,7 +51,7 @@ const services: {
  */
 export function Services() {
   return (
-    <section id="services" className="scroll-mt-20 bg-background pb-12 pt-32 sm:pt-40">
+    <section id="services" className="scroll-mt-20 bg-background pb-12 pt-10 sm:pt-14">
       <div className="grid gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-10">
         <h2 className="text-5xl font-semibold leading-[0.9] tracking-tighter text-foreground sm:text-7xl lg:col-span-9 lg:text-8xl 2xl:text-9xl">
           What we build, end to end.
@@ -62,7 +62,7 @@ export function Services() {
         </p>
       </div>
 
-      <ol className="mt-20 border-t-2 border-foreground sm:mt-28">
+      <ol className="mt-10 border-t-2 border-foreground sm:mt-28">
         {services.map((s, i) => (
           <Reveal as="li" key={s.title} className="border-b border-foreground/25">
             <Link

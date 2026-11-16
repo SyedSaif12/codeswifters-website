@@ -97,7 +97,7 @@ export function TechStack() {
       id="stack"
       className="relative scroll-mt-20 border-y border-line/80 bg-card/40"
     >
-      <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:py-14 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Tech Stack"
           title={

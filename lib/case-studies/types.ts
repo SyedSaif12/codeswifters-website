@@ -11,6 +11,10 @@ export type CaseStudyFeature = {
   bullets?: string[];
   /** Zoom into artwork that has transparent padding (wide cards only) */
   zoom?: boolean;
+  /** Width / height of the source image (wide features); drives the stage shape */
+  ratio?: number;
+  /** Crop box (px) of the visible artwork inside a padded/transparent source image; shown on a flat stage */
+  crop?: { x: number; y: number; w: number; h: number; imgW: number; imgH: number };
 };
 
 /** A long-form story section taken from the client's Figma case study board. */

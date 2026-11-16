@@ -20,7 +20,7 @@ const faqs = [
 /** Ledger FAQ: heading (4) + hairline disclosure rows (8). */
 export function Faq() {
   return (
-    <section className="px-4 py-24 sm:px-6 lg:px-10">
+    <section className="px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
       <div className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Eyebrow index="03">FAQ</Eyebrow>

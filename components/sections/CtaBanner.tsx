@@ -13,12 +13,12 @@ export function CtaBanner({
   label?: string;
 }) {
   return (
-    <section className="bg-brand-purple px-4 pb-14 pt-32 text-white sm:px-6 sm:pt-44 lg:px-10">
+    <section className="bg-brand-purple px-4 pb-14 pt-10 text-white sm:px-6 sm:pt-14 lg:px-10">
       <h2 className="max-w-6xl text-5xl font-semibold leading-[0.9] tracking-tighter sm:text-7xl lg:text-8xl 2xl:text-9xl">
         {title}
       </h2>
 
-      <div className="mt-16 grid gap-10 border-t border-white/30 pt-10 lg:mt-24 lg:grid-cols-12 lg:gap-10">
+      <div className="mt-8 grid gap-10 border-t border-white/30 pt-10 lg:mt-12 lg:grid-cols-12 lg:gap-10">
         <p className="max-w-xl text-lg leading-relaxed text-white/90 sm:text-xl lg:col-span-6">
           {description}
         </p>

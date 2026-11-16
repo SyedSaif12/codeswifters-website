@@ -82,7 +82,7 @@ export function HomeReviews() {
   return (
     <section
       id="reviews"
-      className="scroll-mt-20 bg-background pb-24 pt-28 sm:pt-36"
+      className="scroll-mt-20 bg-background pb-10 pt-10 sm:pb-14 sm:pt-14"
     >
       <div className="grid items-end gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-10">
         <h2 className="text-5xl font-semibold leading-[0.9] tracking-tighter text-foreground sm:text-7xl lg:col-span-8 lg:text-8xl 2xl:text-9xl">
@@ -104,7 +104,7 @@ export function HomeReviews() {
         </div>
       </div>
 
-      <div className="group mt-16 overflow-hidden px-4 sm:px-6 lg:px-10">
+      <div className="group mt-8 overflow-hidden px-4 sm:px-6 lg:px-10">
         <div className="flex w-max animate-marquee-reviews will-change-transform motion-reduce:[animation-duration:300s] group-hover:[animation-play-state:paused] group-active:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]">
           <ReviewRow />
           <ReviewRow decorative />

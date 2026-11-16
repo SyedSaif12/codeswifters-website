@@ -21,7 +21,7 @@ const layouts = [
     // narrow image 5 cols right, text 7 cols left overlapping it
     wrapper: "lg:mt-8",
     image: "lg:col-span-5 lg:col-start-8 lg:row-start-1",
-    text: "lg:col-span-6 lg:col-start-2 lg:row-start-1 lg:self-start lg:mt-20 lg:-mr-12 lg:p-10",
+    text: "lg:col-span-6 lg:col-start-2 lg:row-start-1 lg:self-start lg:mt-10 lg:-mr-12 lg:p-10",
   },
   {
     // wide image 7 cols, text sits clear of it in 4 cols
@@ -40,7 +40,7 @@ const layouts = [
 function WorkRow({ project, index }: { project: Project; index: number }) {
   const layout = layouts[index % layouts.length];
   return (
-    <Reveal as="li" className={cn("mt-24 sm:mt-32", layout.wrapper)}>
+    <Reveal as="li" className={cn("mt-10 sm:mt-8", layout.wrapper)}>
       <Link
         href={`/our-work/${project.slug}`}
         className="group grid gap-0 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-brand-glow lg:grid-cols-12"
@@ -107,7 +107,7 @@ export function FeaturedWork({
   return (
     <section
       id="work"
-      className="scroll-mt-20 overflow-x-clip bg-background px-4 pb-32 pt-28 sm:px-6 sm:pt-36 lg:px-10"
+      className="scroll-mt-20 overflow-x-clip bg-background px-4 pb-14 pt-10 sm:px-6 sm:pt-14 lg:px-10"
     >
       <div className="grid items-end gap-8 lg:grid-cols-12 lg:gap-10">
         <h2 className="text-5xl font-semibold leading-[0.9] tracking-tighter text-foreground sm:text-7xl lg:col-span-8 lg:text-8xl 2xl:text-9xl">

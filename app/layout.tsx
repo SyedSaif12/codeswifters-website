@@ -5,6 +5,7 @@ import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar, NavbarFallback } from "@/components/layout/Navbar";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import { DEFAULT_OG_IMAGE, organizationJsonLd } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +25,26 @@ export const metadata: Metadata = {
   },
   description:
     "CodeSwifters delivers high-performance custom software, web development, mobile apps, and AI-powered solutions to help businesses scale faster and smarter.",
+  applicationName: "CodeSwifters",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: "CodeSwifters",
+    title: "Custom Software, Web & AI Development Company | CodeSwifters",
+    description:
+      "CodeSwifters delivers high-performance custom software, web development, mobile apps, and AI-powered solutions to help businesses scale faster and smarter.",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Custom Software, Web & AI Development Company | CodeSwifters",
+    description:
+      "CodeSwifters delivers high-performance custom software, web development, mobile apps, and AI-powered solutions to help businesses scale faster and smarter.",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  robots: { index: true, follow: true },
   // Favicon follows the browser/OS color scheme: navy+violet mark on light
   // tabs, light-violet mark on dark tabs.
   icons: {
@@ -51,6 +72,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

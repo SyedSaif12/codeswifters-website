@@ -102,6 +102,7 @@ export const biotip: CaseStudy = {
       image: `${A}/mockup-01.png`,
       alt: "eyeD previous readings screen showing fresh and consume soon cards",
       kind: "wide",
+      ratio: 964 / 1762,
     },
   ],
   highlights: [

@@ -117,6 +117,7 @@ export const mcs: CaseStudy = {
       image: `${A}/portal-dashboard.webp`,
       alt: "MCS portal dashboard with order counts, ordering trends and weightage chart",
       kind: "wide",
+      ratio: 1366 / 1198,
     },
     {
       icon: Smartphone,

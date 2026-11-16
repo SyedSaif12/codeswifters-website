@@ -3,7 +3,7 @@ import { ButtonLink } from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
-    <section className="mx-auto flex max-w-2xl flex-col items-center px-4 py-32 text-center">
+    <section className="mx-auto flex max-w-2xl flex-col items-center px-4 py-14 text-center">
       <p className="text-accent-gradient text-7xl font-extrabold">404</p>
       <h1 className="mt-4 text-3xl font-bold text-foreground">Page not found</h1>
       <p className="mt-3 text-muted">

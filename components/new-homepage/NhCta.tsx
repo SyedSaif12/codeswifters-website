@@ -13,14 +13,14 @@ export function NhCta({
   description?: string;
 }) {
   return (
-    <section className="bg-brand-purple px-4 pb-12 pt-28 text-white sm:px-6 sm:pt-40 lg:px-10">
+    <section className="bg-brand-purple px-4 pb-12 pt-10 text-white sm:px-6 sm:pt-14 lg:px-10">
       <p className="font-mono text-xs uppercase tracking-widest text-white/70">
         {eyebrow}
       </p>
       <h2 className="mt-4 max-w-5xl text-5xl font-semibold leading-[0.9] tracking-tighter sm:text-7xl lg:text-8xl">
         {title}
       </h2>
-      <div className="mt-16 grid gap-8 border-t border-white/30 pt-8 lg:grid-cols-12">
+      <div className="mt-8 grid gap-8 border-t border-white/30 pt-8 lg:grid-cols-12">
         <p className="max-w-lg text-lg text-white/85 lg:col-span-6">
           {description}
         </p>

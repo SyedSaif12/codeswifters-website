@@ -1,12 +1,18 @@
+import { getProject } from "@/lib/projects";
+import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { CaseStudyView } from "@/components/sections/CaseStudyView";
 import { wedfluencer as c } from "@/lib/case-studies/wedfluencer";
 
-export const metadata: Metadata = {
-  title: "WEDFluencer Case Study",
+const project = getProject(c.slug)!;
+
+export const metadata: Metadata = pageMetadata({
+  title: `${project.name} Case Study`,
   description: c.summary,
-  openGraph: { images: [c.images.hero] },
-};
+  path: `/our-work/${c.slug}`,
+  image: c.images.hero,
+  type: "article",
+});
 
 export default function WedfluencerCaseStudy() {
   return <CaseStudyView c={c} />;

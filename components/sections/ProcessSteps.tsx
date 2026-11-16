@@ -4,7 +4,7 @@ import { processSteps } from "@/lib/process";
 /** The six delivery stages as a hairline ledger; rows flood purple on hover. */
 export function ProcessSteps({ index = "04" }: { index?: string }) {
   return (
-    <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+    <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
       <div className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Eyebrow index={index}>How we work</Eyebrow>

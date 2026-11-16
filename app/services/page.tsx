@@ -8,15 +8,17 @@ import { NhTech } from "@/components/new-homepage/NhTech";
 import { PageIntro } from "@/components/new-homepage/PageIntro";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { ButtonLink } from "@/components/ui/Button";
+import { pageMetadata } from "@/lib/seo";
 import { services } from "@/lib/services";
 import { otherCapabilities } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Services",
+export const metadata: Metadata = pageMetadata({
+  title: "Software, Web, Mobile & AI Services",
   description:
-    "Custom software, web development, web applications, mobile apps and AI-powered solutions, delivered end to end by CodeSwifters.",
-};
+    "Custom software, web development, web applications, mobile apps and AI-powered solutions, delivered end to end by a senior CodeSwifters engineering team.",
+  path: "/services",
+});
 
 const blurbs: Record<string, string> = {
   "mobile-development":

@@ -130,7 +130,7 @@ export function Estimator() {
   return (
     <section
       id="estimator"
-      className="scroll-mt-20 border-b border-line px-4 py-24 sm:px-6 lg:px-10"
+      className="scroll-mt-20 border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10"
     >
       <Eyebrow index="02">Project estimator</Eyebrow>
       <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-6xl">
@@ -141,7 +141,7 @@ export function Estimator() {
         quotes follow a short discovery call.
       </p>
 
-      <div className="mt-14 grid gap-10 lg:grid-cols-12">
+      <div className="mt-8 grid gap-10 lg:grid-cols-12">
         <div className="space-y-8 lg:col-span-7">
           <OptionGroup legend="Platform type" options={platforms} value={platform} onChange={setPlatform} />
           <OptionGroup legend="Feature depth" options={depths} value={depth} onChange={setDepth} />

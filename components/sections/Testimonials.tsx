@@ -47,7 +47,7 @@ export function Testimonials() {
   return (
     <section
       id="reviews"
-      className="scroll-mt-20 bg-brand-midnight px-4 pb-16 pt-32 text-white sm:px-6 sm:pt-40 lg:px-10"
+      className="scroll-mt-20 bg-brand-midnight px-4 pb-16 pt-10 text-white sm:px-6 sm:pt-14 lg:px-10"
     >
       <p className="text-xs font-medium uppercase tracking-widest text-white/70 sm:text-sm">
         In their words
@@ -68,7 +68,7 @@ export function Testimonials() {
         </figcaption>
       </figure>
 
-      <ul className="mt-24 border-t-2 border-white sm:mt-32">
+      <ul className="mt-10 border-t-2 border-white sm:mt-8">
         {ledger.map((t) => (
           <Reveal
             as="li"

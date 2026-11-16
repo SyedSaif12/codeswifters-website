@@ -4,12 +4,15 @@ import { NhCta } from "@/components/new-homepage/NhCta";
 import { PageIntro } from "@/components/new-homepage/PageIntro";
 import { WorkGrid } from "@/components/sections/WorkGrid";
 import { projects } from "@/lib/projects";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Our Work",
+
+export const metadata: Metadata = pageMetadata({
+  title: "Our Work: Software & App Case Studies",
   description:
-    "Websites, mobile apps and custom software we've designed and built for clients around the world.",
-};
+    "Explore case studies of websites, mobile apps and custom software CodeSwifters has designed, built and launched for clients around the world.",
+  path: "/our-work",
+});
 
 export default function OurWorkPage() {
   return (

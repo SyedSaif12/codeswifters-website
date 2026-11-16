@@ -113,7 +113,7 @@ export const wedfluencer: CaseStudy = {
       image: `${A}/web-screens.png`,
       alt: "Wedfluencer web app login, registration and profile screens",
       kind: "wide",
-      zoom: true,
+      crop: { x: 539, y: 185, w: 950, h: 986, imgW: 1745, imgH: 1357 },
     },
   ],
   highlights: [

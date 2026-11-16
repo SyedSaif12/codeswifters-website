@@ -20,7 +20,7 @@ export function HomeProcess() {
   return (
     <section
       id="process"
-      className="scroll-mt-20 bg-brand-midnight px-4 pb-24 pt-28 text-white sm:px-6 sm:pt-36 lg:px-10"
+      className="scroll-mt-20 bg-brand-midnight px-4 pb-10 pt-10 text-white sm:px-6 sm:pb-14 sm:pt-14 lg:px-10"
     >
       <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">

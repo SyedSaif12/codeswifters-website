@@ -4,15 +4,17 @@ import { NhClientStrip } from "@/components/new-homepage/NhClientStrip";
 import { NhCta } from "@/components/new-homepage/NhCta";
 import { NhWork } from "@/components/new-homepage/NhWork";
 import { PageIntro } from "@/components/new-homepage/PageIntro";
+import { pageMetadata } from "@/lib/seo";
 import { projects } from "@/lib/projects";
 import { site } from "@/lib/site";
 import { testimonials } from "@/lib/testimonials";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About Us",
   description:
     "CodeSwifters is a full-cycle product development company: 25+ senior designers and engineers building web, mobile and AI products from Milton, CA and Karachi.",
-};
+  path: "/about-us",
+});
 
 // Only verifiable figures: headcount is owner-confirmed, the rest is counted from site data.
 const facts = [
@@ -68,9 +70,9 @@ export default function AboutPage() {
       />
 
       {/* Story (7) + numbers (5) */}
-      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+      <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
         <Eyebrow index="01">Who we are</Eyebrow>
-        <div className="mt-10 grid gap-14 lg:grid-cols-12">
+        <div className="mt-10 grid gap-10 lg:grid-cols-12">
           <p className="text-3xl font-medium leading-[1.15] tracking-tight text-foreground sm:text-4xl lg:col-span-7">
             Expert designers and developers who stay with a product from the
             first sketch to the store release, and after it.
@@ -96,7 +98,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values ledger */}
-      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+      <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
         <Eyebrow index="02">How we work</Eyebrow>
         <ul className="mt-10 border-t border-line">
           {values.map((v, i) => (
@@ -119,7 +121,7 @@ export default function AboutPage() {
       </section>
 
       {/* Beliefs: 4 / 8 */}
-      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+      <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Eyebrow index="03">What we believe</Eyebrow>
@@ -144,7 +146,7 @@ export default function AboutPage() {
       </section>
 
       {/* Offices */}
-      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+      <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
         <Eyebrow index="04">Offices</Eyebrow>
         <ul className="mt-10 grid gap-x-10 gap-y-10 lg:grid-cols-12">
           {site.offices.map((o, i) => (

@@ -13,7 +13,7 @@ const link =
   'block border-b border-line py-2.5 text-sm text-foreground transition-colors hover:bg-brand-purple hover:px-3 hover:text-white';
 
 /**
- * Site footer: page canvas, hairline rules, mono labels, hover-flood links and
+ * Site footer: permanently dark (the `dark` class re-scopes the theme tokens, so it ignores the light toggle), hairline rules, mono labels, hover-flood links and
  * an edge-to-edge wordmark in the hairline tone. Matches the header.
  */
 export function Footer() {
@@ -26,7 +26,7 @@ export function Footer() {
   );
 
   return (
-    <footer className='overflow-hidden border-t border-line bg-background text-foreground'>
+    <footer className='dark overflow-hidden border-t border-line bg-card text-foreground [--muted:#cbd5e1]'>
       <div className='px-4 sm:px-6 lg:px-10'>
         <div className='grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10'>
           <div className='sm:col-span-2 lg:col-span-5'>
@@ -35,7 +35,7 @@ export function Footer() {
               aria-label='CodeSwifters home'
               className='inline-block'
             >
-              <Logo />
+              <Logo onDark />
             </Link>
             <p className='mt-6 max-w-sm text-sm leading-relaxed text-muted'>
               Custom software, web platforms, mobile apps and AI features, built
@@ -43,13 +43,13 @@ export function Footer() {
             </p>
             <a
               href={`mailto:${site.email}`}
-              className='mt-8 block break-words text-3xl font-semibold tracking-tighter hover:text-accent sm:text-4xl'
+              className='mt-8 block break-words text-3xl font-semibold tracking-tighter hover:text-brand-violet sm:text-4xl'
             >
               {site.email}
             </a>
             <a
               href={site.phoneHref}
-              className='mt-2 block text-sm text-muted hover:text-foreground'
+              className='mt-2 block text-sm text-muted hover:text-brand-violet'
             >
               {site.phone}
             </a>
@@ -108,7 +108,7 @@ export function Footer() {
                     href={href}
                     target='_blank'
                     rel='noreferrer'
-                    className='underline-offset-4 hover:text-foreground hover:underline'
+                    className='underline-offset-4 hover:text-brand-violet hover:underline'
                   >
                     {label}
                   </a>

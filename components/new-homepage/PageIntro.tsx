@@ -15,7 +15,7 @@ export function PageIntro({
   children?: React.ReactNode;
 }) {
   return (
-    <section className="border-b border-line px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20 lg:px-10">
+    <section className="border-b border-line px-4 pb-10 pt-10 sm:px-6 sm:pb-12 sm:pt-14 lg:px-10">
       <nav aria-label="Breadcrumb">
         <ol className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted">
           {crumbs.map((c, i) => (

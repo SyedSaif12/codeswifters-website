@@ -77,13 +77,13 @@ export function NhTech({ index = "04" }: { index?: string }) {
   const [i, setI] = useState(0);
   const g = groups[i];
   return (
-    <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+    <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
       <Eyebrow index={index}>Technologies</Eyebrow>
       <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-6xl">
         The stack we ship with.
       </h2>
 
-      <div className="mt-14 grid border border-line lg:grid-cols-12">
+      <div className="mt-8 grid border border-line lg:grid-cols-12">
         <div
           role="tablist"
           aria-label="Technology categories"

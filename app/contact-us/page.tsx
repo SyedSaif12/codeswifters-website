@@ -3,12 +3,15 @@ import { PageIntro } from "@/components/new-homepage/PageIntro";
 import { Contact } from "@/components/sections/Contact";
 import { Estimator } from "@/components/sections/Estimator";
 import { Faq } from "@/components/sections/Faq";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+
+export const metadata: Metadata = pageMetadata({
   title: "Contact Us",
   description:
-    "Have a project in mind? Get in touch with CodeSwifters. We reply within one business day.",
-};
+    "Have a software, web or mobile project in mind? Contact CodeSwifters for a free estimate, a rough scope and a realistic timeline. We reply within one business day.",
+  path: "/contact-us",
+});
 
 export default function ContactPage() {
   return (

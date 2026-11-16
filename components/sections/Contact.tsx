@@ -40,7 +40,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="scroll-mt-20 border-b border-line px-4 py-24 sm:px-6 lg:px-10"
+      className="scroll-mt-20 border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10"
     >
       <div className="grid gap-16 lg:grid-cols-12">
         {/* Details: 5 */}

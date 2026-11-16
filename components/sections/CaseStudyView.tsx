@@ -12,15 +12,36 @@ import {
 } from "@/lib/case-studies/types";
 import { projects } from "@/lib/projects";
 import { testimonials } from "@/lib/testimonials";
+import { SITE_URL } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 const h2 =
   "mt-4 text-4xl font-semibold leading-[0.95] tracking-tighter text-foreground sm:text-5xl";
 
+type FeatureGroup =
+  | { type: "phones"; items: { f: CaseStudy["features"][number]; i: number }[] }
+  | { type: "wide"; n: number; items: { f: CaseStudy["features"][number]; i: number }[] };
+
+/** Merge consecutive phone screens into one device stage; wide shots stay full-width. */
+function groupFeatures(features: CaseStudy["features"]): FeatureGroup[] {
+  const out: FeatureGroup[] = [];
+  let wideCount = 0;
+  features.forEach((f, i) => {
+    const last = out[out.length - 1];
+    if (f.kind === "phone") {
+      if (last?.type === "phones") last.items.push({ f, i });
+      else out.push({ type: "phones", items: [{ f, i }] });
+    } else {
+      out.push({ type: "wide", n: wideCount++, items: [{ f, i }] });
+    }
+  });
+  return out;
+}
+
 /** Story section: label + title (4) beside the copy (8), optional ledger and callout. */
 function Narrative({ s, index }: { s: CaseStudySection; index: string }) {
   return (
-    <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+    <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
       <div className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Eyebrow index={index}>{s.eyebrow}</Eyebrow>
@@ -36,7 +57,7 @@ function Narrative({ s, index }: { s: CaseStudySection; index: string }) {
       </div>
 
       {s.items && (
-        <ul className="mt-14 border-t border-line">
+        <ul className="mt-8 border-t border-line">
           {s.items.map((it, i) => (
             <li
               key={it.title}
@@ -57,7 +78,7 @@ function Narrative({ s, index }: { s: CaseStudySection; index: string }) {
       )}
 
       {s.callout && (
-        <p className="mt-14 bg-brand-purple p-6 text-xl font-medium leading-snug tracking-tight text-white sm:p-10 sm:text-2xl lg:max-w-4xl">
+        <p className="mt-8 bg-brand-purple p-6 text-xl font-medium leading-snug tracking-tight text-white sm:p-10 sm:text-2xl lg:max-w-4xl">
           {s.callout}
         </p>
       )}
@@ -92,10 +113,34 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
   const heroShape = c.images.heroShape ?? "square";
   const spans = metricSpans[c.metrics.length] ?? metricSpans[4];
 
+  const url = `${SITE_URL}/our-work/${c.slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}#article`,
+    mainEntityOfPage: url,
+    headline: `${project.name} case study`,
+    description: c.summary,
+    image: `${SITE_URL}${c.images.hero}`,
+    about: { "@type": "CreativeWork", name: project.name, genre: c.meta.industry },
+    author: { "@type": "Organization", name: "CodeSwifters", url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: "CodeSwifters",
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/assets/brand/logo.png` },
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       {/* 1. Hero */}
-      <section className="border-b border-line px-4 pb-16 pt-14 sm:px-6 sm:pt-20 lg:px-10">
+      <section className="border-b border-line px-4 pb-10 pt-10 sm:px-6 sm:pb-12 sm:pt-14 lg:px-10">
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted">
             <li>
@@ -151,7 +196,7 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
         </div>
 
         {/* Project metadata: raw rules, no box */}
-        <dl className="mt-16 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-12">
+        <dl className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-12">
           {meta.map((m, i) => (
             <div
               key={m.label}
@@ -175,7 +220,7 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
       {c.overview && <Narrative s={c.overview} index="01" />}
 
       {/* 2. Metrics */}
-      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+      <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
         <Eyebrow index="02">At a glance</Eyebrow>
         <h2 className={h2}>What we delivered.</h2>
         <ul className="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-12">
@@ -199,7 +244,7 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
       {/* 3. Challenge (5) and solution (7, solid block) */}
       <section className="border-b border-line">
         <div className="grid lg:grid-cols-12">
-          <div className="px-4 py-20 sm:px-6 lg:col-span-5 lg:px-10">
+          <div className="px-4 py-10 sm:py-12 sm:px-6 lg:col-span-5 lg:px-10">
             <Eyebrow index="03">Challenge</Eyebrow>
             <h2 className={h2}>{c.challenge.title}</h2>
             <p className="mt-5 text-muted">{c.challenge.intro}</p>
@@ -209,7 +254,7 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
               ))}
             </ul>
           </div>
-          <div className="bg-brand-purple px-4 py-20 text-white sm:px-6 lg:col-span-7 lg:px-12">
+          <div className="bg-brand-purple px-4 py-10 sm:py-12 text-white sm:px-6 lg:col-span-7 lg:px-12">
             <p className="font-mono text-xs uppercase tracking-widest text-white/70">04 / Solution</p>
             <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-tighter sm:text-5xl">
               {c.solution.title}
@@ -225,7 +270,7 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
       </section>
 
       {/* 4. Features */}
-      <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+      <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
         <Eyebrow index="05">Key features</Eyebrow>
         <h2 className={cn(h2, "max-w-4xl sm:text-6xl")}>
           {c.featuresHeading.lead}{" "}
@@ -233,59 +278,124 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
         </h2>
         <p className="mt-4 max-w-xl text-muted">{c.featuresHeading.description}</p>
 
-        <div className="mt-14 border-t border-line">
-          {c.features.map((f, i) => {
-            const wide = f.kind === "wide";
-            const flip = i % 2 === 1;
-            return (
+        <div className="mt-8 border-t border-line">
+          {groupFeatures(c.features).map((g) =>
+            g.type === "phones" ? (
               <article
-                key={f.title}
-                className="grid items-center gap-8 border-b border-line py-10 lg:grid-cols-12 lg:gap-12"
+                key={g.items[0].f.title}
+                className="grid gap-8 border-b border-line py-10 lg:grid-cols-12 lg:gap-12"
               >
-                <div
-                  className={cn(
-                    "relative overflow-hidden border border-line bg-card",
-                    wide
-                      ? "aspect-[4/3] lg:col-span-7"
-                      : "aspect-[4/5] lg:col-span-5",
-                    flip && (wide ? "lg:order-2 lg:col-span-5" : "lg:order-2 lg:col-span-7"),
-                  )}
-                >
-                  <Image
-                    src={f.image}
-                    alt={f.alt}
-                    fill
-                    sizes="(min-width: 1024px) 58vw, 100vw"
-                    quality={90}
-                    className={cn(
-                      "origin-center object-contain",
-                      wide && f.zoom ? "scale-[1.3]" : "p-4",
-                    )}
-                  />
+                {/* Cropped device stage: phones sit top-aligned and bleed off the bottom, so tall screens never stretch the page */}
+                <div className="relative flex h-[26rem] items-start justify-center gap-4 overflow-hidden bg-brand-midnight px-6 pt-10 sm:h-[32rem] sm:gap-8 lg:col-span-7">
+                  {g.items.map(({ f }, k) => (
+                    <div
+                      key={f.title}
+                      className={cn(
+                        "relative aspect-[1290/2796] w-[44%] max-w-[15rem] shrink-0 overflow-hidden rounded-[1.75rem] border-[5px] border-black bg-black",
+                        k % 2 === 1 && "mt-16",
+                      )}
+                    >
+                      <Image
+                        src={f.image}
+                        alt={f.alt}
+                        fill
+                        sizes="(min-width: 1024px) 240px, 44vw"
+                        quality={90}
+                        className="object-cover object-top"
+                      />
+                    </div>
+                  ))}
                 </div>
-                <div
-                  className={cn(
-                    wide ? "lg:col-span-5" : "lg:col-span-6 lg:col-start-7",
-                    flip && (wide ? "lg:order-1 lg:col-span-7 lg:pr-12" : "lg:order-1 lg:col-span-5 lg:col-start-1"),
-                  )}
-                >
-                  <p className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</p>
-                  <h3 className="mt-3 text-3xl font-semibold tracking-tighter text-foreground">{f.title}</h3>
-                  <p className="mt-3 max-w-md leading-relaxed text-muted">{f.text}</p>
-                  {f.bullets && (
-                    <ul className="mt-6 border-t border-line">
-                      {f.bullets.map((b) => (
-                        <li key={b} className="border-b border-line py-2.5 text-sm text-foreground">{b}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+                <ol className="border-t border-line lg:col-span-5 lg:self-center">
+                  {g.items.map(({ f, i }) => (
+                    <li key={f.title} className="border-b border-line py-6">
+                      <p className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</p>
+                      <h3 className="mt-2 text-2xl font-semibold tracking-tighter text-foreground sm:text-3xl">{f.title}</h3>
+                      <p className="mt-2 max-w-md leading-relaxed text-muted">{f.text}</p>
+                      {f.bullets && (
+                        <ul className="mt-4 border-t border-line">
+                          {f.bullets.map((bl) => (
+                            <li key={bl} className="border-b border-line py-2.5 text-sm text-foreground">{bl}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  ))}
+                </ol>
               </article>
-            );
-          })}
+            ) : (
+              (() => {
+                const { f, i } = g.items[0];
+                const crop = f.crop;
+                const ratio = f.ratio ?? 4 / 3;
+                const portrait = ratio < 1;
+                return (
+                  <article
+                    key={f.title}
+                    className="grid items-center gap-8 border-b border-line py-10 lg:grid-cols-12 lg:gap-12"
+                  >
+                    <div className="lg:col-span-5">
+                      <p className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</p>
+                      <h3 className="mt-3 text-3xl font-semibold tracking-tighter text-foreground">{f.title}</h3>
+                      <p className="mt-3 max-w-md leading-relaxed text-muted">{f.text}</p>
+                      {f.bullets && (
+                        <ol className="mt-6 border-t border-line">
+                          {f.bullets.map((bl, k) => (
+                            <li key={bl} className="grid grid-cols-[2rem_1fr] border-b border-line py-3 text-sm text-foreground">
+                              <span className="font-mono text-xs text-muted">{String(k + 1).padStart(2, "0")}</span>
+                              {bl}
+                            </li>
+                          ))}
+                        </ol>
+                      )}
+                    </div>
+                    {/* Flat midnight stage: padded art is cropped to its content, portrait art gets a fixed height, landscape art keeps its ratio */}
+                    <div className="flex justify-center bg-brand-midnight px-4 py-8 sm:px-10 sm:py-12 lg:col-span-7">
+                      {crop ? (
+                        <div
+                          className="relative w-full max-w-[34rem] overflow-hidden"
+                          style={{ aspectRatio: `${crop.w} / ${crop.h}` }}
+                        >
+                          <Image
+                            src={f.image}
+                            alt={f.alt}
+                            width={crop.imgW}
+                            height={crop.imgH}
+                            sizes="(min-width: 1024px) 1000px, 100vw"
+                            quality={90}
+                            className="absolute max-w-none"
+                            style={{
+                              width: `${(crop.imgW / crop.w) * 100}%`,
+                              left: `${(-crop.x / crop.w) * 100}%`,
+                              top: `${(-crop.y / crop.h) * 100}%`,
+                              height: "auto",
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className={cn("relative w-full", portrait && "h-[26rem] sm:h-[30rem]")}
+                          style={portrait ? undefined : { aspectRatio: String(Math.min(Math.max(ratio, 1), 1.6)) }}
+                        >
+                          <Image
+                            src={f.image}
+                            alt={f.alt}
+                            fill
+                            sizes="(min-width: 1024px) 58vw, 100vw"
+                            quality={90}
+                            className="object-contain"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                );
+              })()
+            ),
+          )}
         </div>
 
-        <ul className="mt-14 border-t border-line">
+        <ul className="mt-8 border-t border-line">
           {c.highlights.map((h, i) => (
             <li
               key={h.title}
@@ -303,7 +413,7 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
         </ul>
 
         {/* Technical architecture: hairline flow */}
-        <div className="mt-20">
+        <div className="mt-10">
           <p className="font-mono text-xs uppercase tracking-widest text-muted">Architecture</p>
           <h3 className="mt-3 text-3xl font-semibold tracking-tighter text-foreground">
             {c.architecture.heading ?? "Technical architecture"}
@@ -327,7 +437,7 @@ export function CaseStudyView({ c }: { c: CaseStudy }) {
 
       {/* 5. Client review */}
       {review && (
-        <section className="border-b border-line px-4 py-24 sm:px-6 lg:px-10">
+        <section className="border-b border-line px-4 py-10 sm:py-14 sm:px-6 lg:px-10">
           <Eyebrow index="07">Client review</Eyebrow>
           <blockquote className="mt-10 max-w-4xl border-l-2 border-brand-violet pl-6 sm:pl-10">
             <Stars rating={review.rating} />

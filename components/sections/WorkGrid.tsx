@@ -15,7 +15,7 @@ export function WorkGrid() {
     active === "All" ? projects : projects.filter((p) => p.category === active);
 
   return (
-    <section className="border-b border-line px-4 pb-24 pt-10 sm:px-6 lg:px-10">
+    <section className="border-b border-line px-4 pb-10 sm:pb-14 pt-10 sm:px-6 lg:px-10">
       <div
         role="group"
         aria-label="Filter projects by category"

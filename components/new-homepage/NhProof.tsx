@@ -7,7 +7,7 @@ const spans = ["lg:col-span-5", "lg:col-span-3", "lg:col-span-2", "lg:col-span-2
 /** Agency numbers: raw rules and an uneven 5 / 3 / 2 / 2 split. Every figure is real. */
 export function NhProof({ facts }: { facts: Fact[] }) {
   return (
-    <section className="border-b border-line px-4 pb-20 pt-24 sm:px-6 lg:px-10">
+    <section className="border-b border-line px-4 pb-10 pt-10 sm:px-6 sm:pb-12 sm:pt-12 lg:px-10">
       <Eyebrow index="05">By the numbers</Eyebrow>
       <dl className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-12">
         {facts.map((f, i) => (

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { NhBento } from "@/components/new-homepage/NhBento";
 import { NhClientStrip } from "@/components/new-homepage/NhClientStrip";
 import { NhCta } from "@/components/new-homepage/NhCta";
@@ -6,10 +7,18 @@ import { NhProcess } from "@/components/new-homepage/NhProcess";
 import { NhProof } from "@/components/new-homepage/NhProof";
 import { NhTech } from "@/components/new-homepage/NhTech";
 import { NhWork } from "@/components/new-homepage/NhWork";
+import { pageMetadata } from "@/lib/seo";
 import { HomeReviews } from "@/components/sections/HomeReviews";
 import { projects } from "@/lib/projects";
 import { site } from "@/lib/site";
 import { testimonials } from "@/lib/testimonials";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Custom Software, Web & AI Development Company",
+  description:
+    "CodeSwifters is a full-cycle software house. 25+ senior engineers build custom software, web apps, mobile apps and AI features for ambitious businesses.",
+  path: "/",
+});
 
 // Only verifiable figures: headcount is owner-confirmed, the rest is counted from site data.
 const facts = [

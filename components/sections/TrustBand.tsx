@@ -55,7 +55,7 @@ export function TrustBand({ facts }: { facts: Fact[] }) {
   return (
     <section
       aria-label="CodeSwifters at a glance"
-      className="border-b-2 border-foreground bg-background px-4 pb-14 pt-20 sm:px-6 sm:pt-28 lg:px-10"
+      className="border-b-2 border-foreground bg-background px-4 pb-14 pt-10 sm:px-6 sm:pt-14 lg:px-10"
     >
       <dl className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-12">
         {facts.map((f, i) => (
